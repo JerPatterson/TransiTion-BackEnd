@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Stop } from './Stop';
 
 @Entity({ name: 'agencies' })
 export class Agency extends BaseEntity {
@@ -28,4 +35,7 @@ export class Agency extends BaseEntity {
 
   @Column({ nullable: true })
   email: string;
+
+  @OneToMany(() => Stop, (stop) => stop.agency)
+  stops: Stop[];
 }
