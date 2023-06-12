@@ -25,23 +25,17 @@ export class Time extends BaseEntity {
   @Column({ nullable: true })
   stop_headsign: string;
 
-  @Column({ nullable: true })
-  block_id: string;
-
-  @Column({ nullable: true })
-  shape_id: number;
-
   @Column({ type: 'enum', enum: PickupType, nullable: true })
-  pickup_type: string;
+  pickup_type: number;
 
   @Column({ type: 'enum', enum: DropOffType, nullable: true })
-  drop_off_type: string;
+  drop_off_type: number;
 
   @Column({ type: 'enum', enum: PickupType, nullable: true })
-  continuous_pickup: string;
+  continuous_pickup: number;
 
   @Column({ type: 'enum', enum: DropOffType, nullable: true })
-  continuous_drop_off: string;
+  continuous_drop_off: number;
 
   @Column({ type: 'float', nullable: true })
   shape_dist_traveled: number;

@@ -40,7 +40,7 @@ export class Trip extends BaseEntity {
   block_id: string;
 
   @Column({ nullable: true })
-  shape_id: number;
+  shape_id: string;
 
   @Column({ type: 'enum', enum: WheelchairBoardingType, nullable: true })
   wheelchair_accessible: number;

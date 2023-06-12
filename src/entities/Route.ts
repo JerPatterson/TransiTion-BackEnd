@@ -48,10 +48,10 @@ export class Route extends BaseEntity {
   route_sort_order: number;
 
   @Column({ type: 'enum', enum: PickupType, nullable: true })
-  continuous_pickup: string;
+  continuous_pickup: number;
 
   @Column({ type: 'enum', enum: DropOffType, nullable: true })
-  continuous_drop_off: string;
+  continuous_drop_off: number;
 
   @Column({ type: 'enum', enum: WheelchairBoardingType, nullable: true })
   wheelchair_boarding: number;
