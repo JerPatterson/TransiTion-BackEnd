@@ -38,3 +38,9 @@ export enum DropOffType {
   MustPhoneTheAgency,
   MustCoordinateWithDriver,
 }
+
+export enum BikesBoardingType {
+  NoInformation,
+  SomeVehicles,
+  NotPossible,
+}
