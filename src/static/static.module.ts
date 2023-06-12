@@ -11,10 +11,12 @@ import { RouteController } from './controllers/route/route.controller';
 import { Route } from 'src/entities/Route';
 import { Time } from 'src/entities/Time';
 import { Trip } from 'src/entities/Trip';
+import { TripController } from './controllers/trip/trip.controller';
+import { TripService } from './services/trip/trip.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Agency, Stop, Route, Trip, Time])],
-  controllers: [AgencyController, StopsController, RouteController],
-  providers: [AgencyService, StopService, RouteService],
+  controllers: [AgencyController, StopsController, RouteController, TripController],
+  providers: [AgencyService, StopService, RouteService, TripService],
 })
 export class StaticModule {}

@@ -43,10 +43,10 @@ export class RouteController {
   @Put('/:agencyId')
   async updateStop(
     @Param('agencyId') agencyId: string,
-    @Body() stop: RouteDto,
+    @Body() route: RouteDto,
   ) {
     try {
-      return await this.routeService.updateRoute(agencyId, stop);
+      return await this.routeService.updateRoute(agencyId, route);
     } catch {
       return BadRequestException;
     }

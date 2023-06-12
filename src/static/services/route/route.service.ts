@@ -25,7 +25,7 @@ export class RouteService {
   }
 
   async updateRoute(agencyId: string, routeDto: RouteDto) {
-    const stop = Route.create({ ...routeDto, agency_id: agencyId });
-    return Route.save(stop);
+    const route = Route.create({ ...routeDto, agency_id: agencyId });
+    return Route.save(route);
   }
 }
