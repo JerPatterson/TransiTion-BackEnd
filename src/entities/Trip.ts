@@ -17,16 +17,16 @@ import { Time } from './Time';
 @Entity({ name: 'trips' })
 @Unique(['trip_id', 'agency_id', 'route_id', 'service_id'])
 export class Trip extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   route_id: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   service_id: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   trip_id: string;
 
   @Column()

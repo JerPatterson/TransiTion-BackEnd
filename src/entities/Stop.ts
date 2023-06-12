@@ -11,21 +11,21 @@ import { LocationType, WheelchairBoardingType } from 'src/static/utils/enums';
 import { Time } from './Time';
 
 @Entity({ name: 'stops' })
-@Unique(['stop_id', 'stop_agency_id'])
+@Unique(['stop_id', 'agency_id'])
 export class Stop extends BaseEntity {
-  @PrimaryColumn()
-  stop_agency_id: string;
+  @PrimaryColumn({ type: 'varchar', length: 30 })
+  agency_id: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   stop_id: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   stop_code: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   stop_name: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   stop_desc: string;
 
   @Column({ type: 'float' })

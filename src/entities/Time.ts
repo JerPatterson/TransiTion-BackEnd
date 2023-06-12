@@ -13,10 +13,10 @@ import { Stop } from './Stop';
 @Entity({ name: 'times' })
 @Unique(['trip_id', 'agency_id'])
 export class Time extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   trip_id: string;
 
   @Column()
