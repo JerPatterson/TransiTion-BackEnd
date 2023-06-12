@@ -15,28 +15,28 @@ export class TripController {
   constructor(private tripService: TripService) {}
 
   @Get('/:agencyId')
-  async getTripsFromAgency(@Param('agencyId') agencyId: string) {
+  async getTrips(@Param('agencyId') agencyId: string) {
     try {
-      return await this.tripService.getTripsFromAgency(agencyId);
+      return await this.tripService.getTrips(agencyId);
     } catch {
       return NotFoundException;
     }
   }
 
-  @Get('/:agencyId/:routeId')
-  async getStopFromAgencyById(
+  @Get('/:agencyId/:tripId')
+  async getTripById(
     @Param('agencyId') agencyId: string,
-    @Param('routeId') routeId: string,
+    @Param('tripId') tripId: string,
   ) {
     try {
-      return await this.tripService.getTripFromAgencyById(agencyId, routeId);
+      return await this.tripService.getTripById(agencyId, tripId);
     } catch {
       return NotFoundException;
     }
   }
 
   @Put('/:agencyId')
-  async updateStop(@Param('agencyId') agencyId: string, @Body() trip: TripDto) {
+  async updateTrip(@Param('agencyId') agencyId: string, @Body() trip: TripDto) {
     try {
       return await this.tripService.updateTrip(agencyId, trip);
     } catch {

@@ -1,54 +1,61 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
-  NotFoundException,
+  HttpException,
+  HttpStatus,
   Param,
   Put,
 } from '@nestjs/common';
 import { RouteService } from 'src/static/services/route/route.service';
 import { RouteDto } from 'src/static/utils/dtos';
 
-@Controller('route')
+@Controller('routes')
 export class RouteController {
   constructor(private routeService: RouteService) {}
 
-  @Get('/')
-  async getRoutes() {
-    return await this.routeService.getRoutes();
-  }
-
   @Get('/:agencyId')
-  async getRoutesFromAgency(@Param('agencyId') agencyId: string) {
+  async getRoutes(@Param('agencyId') agencyId: string) {
     try {
-      return await this.routeService.getRoutesFromAgency(agencyId);
+      return await this.routeService.getRoutes(agencyId);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
   @Get('/:agencyId/:routeId')
-  async getStopFromAgencyById(
+  async getRouteById(
     @Param('agencyId') agencyId: string,
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.routeService.getRouteFromAgencyById(agencyId, routeId);
+      return await this.routeService.getRouteById(agencyId, routeId);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/trips/:agencyId/:routeId')
+  async getRouteTripsFromAgencyById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+  ) {
+    try {
+      return await this.routeService.getTripsFromRoute(agencyId, routeId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
   @Put('/:agencyId')
-  async updateStop(
+  async updateRoute(
     @Param('agencyId') agencyId: string,
     @Body() route: RouteDto,
   ) {
     try {
       return await this.routeService.updateRoute(agencyId, route);
     } catch {
-      return BadRequestException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 }

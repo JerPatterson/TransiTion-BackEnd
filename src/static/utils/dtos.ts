@@ -73,3 +73,10 @@ export class TimeDto {
   shape_dist_traveled?: number;
   timepoint?: number;
 }
+
+export class AreaDto {
+  minLat: number;
+  maxLat: number;
+  minLon: number;
+  maxLon: number;
+}

@@ -5,11 +5,18 @@ import { TripDto } from 'src/static/utils/dtos';
 
 @Injectable()
 export class TripService {
-  async getTripsFromAgency(agencyId: string) {
-    return Trip.find({ where: { agency_id: agencyId } });
+  async getTrips(agencyId: string) {
+    return Trip.find({
+      where: { agency_id: agencyId },
+      select: {
+        route_id: true,
+        trip_id: true,
+        service_id: true,
+      },
+    });
   }
 
-  async getTripFromAgencyById(agencyId: string, tripId: string) {
+  async getTripById(agencyId: string, tripId: string) {
     return Trip.findOne({
       where: { trip_id: tripId, agency_id: agencyId },
     });

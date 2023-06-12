@@ -1,9 +1,9 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
-  NotFoundException,
+  HttpException,
+  HttpStatus,
   Param,
   Put,
 } from '@nestjs/common';
@@ -19,7 +19,7 @@ export class AgencyController {
     try {
       return await this.agencyService.getAgencies();
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -28,7 +28,7 @@ export class AgencyController {
     try {
       return await this.agencyService.getAgencyById(id);
     } catch {
-      return BadRequestException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -37,7 +37,7 @@ export class AgencyController {
     try {
       return await this.agencyService.updateAgency(agency);
     } catch {
-      return BadRequestException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 }
