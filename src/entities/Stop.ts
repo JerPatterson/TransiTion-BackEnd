@@ -55,4 +55,10 @@ export class Stop extends BaseEntity {
 
   @Column({ nullable: true })
   platform_code: string;
+
+  @Column({ nullable: true })
+  stop_shelter: boolean;
+
+  @Column({ nullable: true })
+  stop_display: boolean;
 }
