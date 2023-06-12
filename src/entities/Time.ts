@@ -11,7 +11,7 @@ import { Trip } from './Trip';
 import { Stop } from './Stop';
 
 @Entity({ name: 'times' })
-@Unique(['trip_id', 'agency_id'])
+@Unique(['trip_id', 'agency_id', 'stop_id'])
 export class Time extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
@@ -25,7 +25,7 @@ export class Time extends BaseEntity {
   @Column()
   departure_time: string;
 
-  @Column()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   stop_id: string;
 
   @Column()

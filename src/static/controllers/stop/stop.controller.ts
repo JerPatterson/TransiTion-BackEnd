@@ -47,9 +47,14 @@ export class StopsController {
   }
 
   @Put('/:agencyId')
-  async updateStop(@Param('agencyId') agencyId: string, @Body() stop: StopDto) {
+  async updateStop(
+    @Param('agencyId') agencyId: string,
+    @Body() stops: StopDto[],
+  ) {
     try {
-      return await this.stopService.updateStop(agencyId, stop);
+      stops.forEach(async (stop) => {
+        await this.stopService.updateStop(agencyId, stop);
+      });
     } catch {
       return BadRequestException;
     }

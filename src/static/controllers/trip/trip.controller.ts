@@ -36,9 +36,14 @@ export class TripController {
   }
 
   @Put('/:agencyId')
-  async updateTrip(@Param('agencyId') agencyId: string, @Body() trip: TripDto) {
+  async updateTrip(
+    @Param('agencyId') agencyId: string,
+    @Body() trips: TripDto[],
+  ) {
     try {
-      return await this.tripService.updateTrip(agencyId, trip);
+      trips.forEach(async (trip) => {
+        await this.tripService.updateTrip(agencyId, trip);
+      });
     } catch {
       return BadRequestException;
     }

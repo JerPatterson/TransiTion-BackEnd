@@ -30,9 +30,14 @@ export class TimeController {
   }
 
   @Put('/:agencyId')
-  async updateStop(@Param('agencyId') agencyId: string, @Body() trip: TimeDto) {
+  async updateStop(
+    @Param('agencyId') agencyId: string,
+    @Body() times: TimeDto[],
+  ) {
     try {
-      return await this.timeService.updateTime(agencyId, trip);
+      times.forEach(async (time) => {
+        await this.timeService.updateTime(agencyId, time);
+      });
     } catch {
       return BadRequestException;
     }
