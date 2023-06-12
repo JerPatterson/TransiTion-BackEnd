@@ -6,10 +6,15 @@ import { Agency } from 'src/entities/Agency';
 import { StopService } from './services/stop/stop.service';
 import { StopsController } from './controllers/stop/stop.controller';
 import { Stop } from 'src/entities/Stop';
+import { RouteService } from './services/route/route.service';
+import { RouteController } from './controllers/route/route.controller';
+import { Route } from 'src/entities/Route';
+import { Time } from 'src/entities/Time';
+import { Trip } from 'src/entities/Trip';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Agency, Stop])],
-  controllers: [AgencyController, StopsController],
-  providers: [AgencyService, StopService],
+  imports: [TypeOrmModule.forFeature([Agency, Stop, Route, Trip, Time])],
+  controllers: [AgencyController, StopsController, RouteController],
+  providers: [AgencyService, StopService, RouteService],
 })
 export class StaticModule {}

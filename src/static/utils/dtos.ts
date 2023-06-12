@@ -41,8 +41,8 @@ export class RouteDto {
   route_color?: string;
   route_text_color?: string;
   route_sort_order?: number;
-  continuous_pickup?: string;
-  continuous_drop_off?: string;
+  continuous_pickup?: number;
+  continuous_drop_off?: number;
   wheelchair_boarding?: number;
 }
 
