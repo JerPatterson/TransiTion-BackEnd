@@ -2,11 +2,13 @@ import {
   BaseEntity,
   Column,
   Entity,
+  OneToMany,
   OneToOne,
   PrimaryColumn,
   Unique,
 } from 'typeorm';
 import { LocationType, WheelchairBoardingType } from 'src/static/utils/enums';
+import { Time } from './Time';
 
 @Entity({ name: 'stops' })
 @Unique(['stop_id', 'stop_agency_id'])
@@ -61,4 +63,7 @@ export class Stop extends BaseEntity {
 
   @Column({ nullable: true })
   stop_display: boolean;
+
+  @OneToMany(() => Time, (time) => time.stop)
+  times: Time[];
 }

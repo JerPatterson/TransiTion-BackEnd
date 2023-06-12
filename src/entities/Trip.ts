@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   Unique,
 } from 'typeorm';
@@ -11,6 +12,7 @@ import {
   WheelchairBoardingType,
 } from 'src/static/utils/enums';
 import { Route } from './Route';
+import { Time } from './Time';
 
 @Entity({ name: 'trips' })
 @Unique(['trip_id', 'agency_id', 'route_id', 'service_id'])
@@ -50,4 +52,7 @@ export class Trip extends BaseEntity {
 
   @ManyToOne(() => Route, (route) => route.trips)
   route: Route;
+
+  @OneToMany(() => Time, (time) => time.trip)
+  times: Time[];
 }

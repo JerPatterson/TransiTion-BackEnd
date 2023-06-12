@@ -1,5 +1,14 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, Unique } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  Unique,
+} from 'typeorm';
 import { DropOffType, PickupType, TimePointType } from 'src/static/utils/enums';
+import { Trip } from './Trip';
+import { Stop } from './Stop';
 
 @Entity({ name: 'times' })
 @Unique(['trip_id', 'agency_id'])
@@ -42,4 +51,10 @@ export class Time extends BaseEntity {
 
   @Column({ type: 'enum', enum: TimePointType, nullable: true })
   timepoint: number;
+
+  @ManyToOne(() => Trip, (trip) => trip.times)
+  trip: Trip;
+
+  @ManyToOne(() => Stop, (stop) => stop.times)
+  stop: Stop;
 }
