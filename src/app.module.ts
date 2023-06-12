@@ -19,7 +19,6 @@ dotenv.config();
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [Agency, Stop],
-      synchronize: true,
     }),
     StaticModule,
   ],

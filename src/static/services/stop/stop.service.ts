@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { Agency } from 'src/entities/Agency';
 import { Stop } from 'src/entities/Stop';
 import { StopDto } from 'src/static/utils/dtos';
 
 @Injectable()
 export class StopService {
-  getStopsFromAgency(agencyId: string) {
+  async getStops() {
     return Stop.find({
-      where: {
-        agency: { id: agencyId },
+      select: {
+        stop_agency_id: true,
+        stop_id: true,
+        stop_lat: true,
+        stop_lon: true,
       },
-      relations: { agency: true },
     });
   }
 
-  getStopFromAgencyById(agencyId: string, stopId: string) {
+  async getStopsFromAgency(agencyId: string) {
+    return Stop.find({ where: { stop_agency_id: agencyId } });
+  }
+
+  async getStopFromAgencyById(agencyId: string, stopId: string) {
     return Stop.findOne({
-      where: {
-        id: stopId,
-        agency: { id: agencyId },
-      },
-      relations: { agency: true },
+      where: { stop_id: stopId, stop_agency_id: agencyId },
     });
   }
 
   async createStop(agencyId: string, stopDto: StopDto) {
-    const stop: Stop = Stop.create({ ...stopDto });
-    stop.agency = await Agency.findOne({ where: { id: agencyId } });
+    const stop = Stop.create({ ...stopDto, stop_agency_id: agencyId });
     return Stop.save(stop);
   }
 }

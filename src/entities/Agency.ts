@@ -1,41 +1,28 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Stop } from './Stop';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'agencies' })
 export class Agency extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  generated_id: string;
-
-  @Column({ unique: true })
-  id: string;
+  @PrimaryColumn()
+  agency_id: string;
 
   @Column()
-  name: string;
+  agency_name: string;
 
   @Column()
-  url: string;
+  agency_url: string;
 
   @Column()
-  timezone: string;
+  agency_timezone: string;
 
   @Column({ nullable: true })
-  lang: string;
+  agency_lang: string;
 
   @Column({ nullable: true })
-  phone: string;
+  agency_phone: string;
 
   @Column({ nullable: true })
-  fare_url: string;
+  agency_fare_url: string;
 
   @Column({ nullable: true })
-  email: string;
-
-  @OneToMany(() => Stop, (stop) => stop.agency)
-  stops: Stop[];
+  agency_email: string;
 }

@@ -6,6 +6,11 @@ import { StopDto } from 'src/static/utils/dtos';
 export class StopsController {
   constructor(private stopService: StopService) {}
 
+  @Get('/')
+  async getStops() {
+    return await this.stopService.getStops();
+  }
+
   @Get('/:agencyId')
   async getStopsFromAgency(@Param('agencyId') agencyId: string) {
     return await this.stopService.getStopsFromAgency(agencyId);

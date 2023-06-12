@@ -8,11 +8,11 @@ export class AgencyService {
     return Agency.find();
   }
 
-  getAgencyById(id: string) {
-    return Agency.findOne({ where: { id } });
+  async getAgencyById(id: string) {
+    return Agency.findOne({ where: { agency_id: id } });
   }
 
-  createAgency(agency: AgencyDto) {
+  async createAgency(agency: AgencyDto) {
     return Agency.save(Agency.create({ ...agency }));
   }
 }

@@ -2,37 +2,35 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Unique,
 } from 'typeorm';
-import { Agency } from './Agency';
 import { LocationType, WheelchairBoardingType } from 'src/static/utils/enums';
 
 @Entity({ name: 'stops' })
-@Unique(['id', 'agency'])
+@Unique(['stop_id', 'stop_agency_id'])
 export class Stop extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  generated_id: string;
+  @PrimaryColumn()
+  stop_agency_id: string;
 
-  @Column()
-  id: string;
-
-  @Column({ nullable: true })
-  code: string;
-
-  @Column()
-  name: string;
+  @PrimaryColumn()
+  stop_id: string;
 
   @Column({ nullable: true })
-  desc: string;
+  stop_code: string;
+
+  @Column()
+  stop_name: string;
+
+  @Column({ nullable: true })
+  stop_desc: string;
 
   @Column({ type: 'float' })
-  lat: number;
+  stop_lat: number;
 
   @Column({ type: 'float' })
-  lon: number;
+  stop_lon: number;
 
   @Column({ nullable: true })
   zone_id: string;
@@ -43,11 +41,11 @@ export class Stop extends BaseEntity {
   @Column({ type: 'enum', enum: LocationType })
   location_type: number;
 
-  @OneToOne(() => Stop, (parent_station) => parent_station.id)
+  @OneToOne(() => Stop, (parent_station) => parent_station.stop_id)
   parent_station: string;
 
   @Column({ nullable: true })
-  timezone: string;
+  stop_timezone: string;
 
   @Column({ type: 'enum', enum: WheelchairBoardingType, nullable: true })
   wheelchair_boarding: number;
@@ -57,7 +55,4 @@ export class Stop extends BaseEntity {
 
   @Column({ nullable: true })
   platform_code: string;
-
-  @ManyToOne(() => Agency, (agency) => agency.stops)
-  agency: Agency;
 }
