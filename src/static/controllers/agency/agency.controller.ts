@@ -5,7 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
-  Post,
+  Put,
 } from '@nestjs/common';
 import { AgencyService } from 'src/static/services/agency/agency.service';
 import { AgencyDto } from 'src/static/utils/dtos';
@@ -32,10 +32,10 @@ export class AgencyController {
     }
   }
 
-  @Post()
+  @Put()
   async createAgency(@Body() agency: AgencyDto) {
     try {
-      return await this.agencyService.createAgency(agency);
+      return await this.agencyService.updateAgency(agency);
     } catch {
       return BadRequestException;
     }

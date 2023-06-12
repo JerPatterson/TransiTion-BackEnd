@@ -46,7 +46,7 @@ export class StopService {
     });
   }
 
-  async createStop(agencyId: string, stopDto: StopDto) {
+  async updateStop(agencyId: string, stopDto: StopDto) {
     const stop = Stop.create({ ...stopDto, stop_agency_id: agencyId });
     return Stop.save(stop);
   }

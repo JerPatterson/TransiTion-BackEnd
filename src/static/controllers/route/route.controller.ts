@@ -5,7 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
-  Post,
+  Put,
 } from '@nestjs/common';
 import { RouteService } from 'src/static/services/route/route.service';
 import { RouteDto } from 'src/static/utils/dtos';
@@ -40,8 +40,8 @@ export class RouteController {
     }
   }
 
-  @Post('/:agencyId')
-  async createStop(
+  @Put('/:agencyId')
+  async updateStop(
     @Param('agencyId') agencyId: string,
     @Body() stop: RouteDto,
   ) {

@@ -12,7 +12,7 @@ export class AgencyService {
     return Agency.findOne({ where: { agency_id: id } });
   }
 
-  async createAgency(agency: AgencyDto) {
+  async updateAgency(agency: AgencyDto) {
     return Agency.save(Agency.create({ ...agency }));
   }
 }

@@ -5,7 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
-  Post,
+  Put,
 } from '@nestjs/common';
 import { StopService } from 'src/static/services/stop/stop.service';
 import { StopDto } from 'src/static/utils/dtos';
@@ -60,10 +60,10 @@ export class StopsController {
     }
   }
 
-  @Post('/:agencyId')
-  async createStop(@Param('agencyId') agencyId: string, @Body() stop: StopDto) {
+  @Put('/:agencyId')
+  async updateStop(@Param('agencyId') agencyId: string, @Body() stop: StopDto) {
     try {
-      return await this.stopService.createStop(agencyId, stop);
+      return await this.stopService.updateStop(agencyId, stop);
     } catch {
       return BadRequestException;
     }
