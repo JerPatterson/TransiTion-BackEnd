@@ -11,3 +11,30 @@ export enum WheelchairBoardingType {
   SomeVehicles,
   NotPossible,
 }
+
+export enum RouteType {
+  LightRail,
+  Subway,
+  Rail,
+  Bus,
+  Ferry,
+  CableTram,
+  AerialLift,
+  Funicular,
+  Trolleybus = 11,
+  Monorail = 12,
+}
+
+export enum PickupType {
+  ContinuousStopping,
+  NoContinuousStopping,
+  MustPhoneTheAgency,
+  MustCoordinateWithDriver,
+}
+
+export enum DropOffType {
+  ContinuousStopping,
+  NoContinuousStopping,
+  MustPhoneTheAgency,
+  MustCoordinateWithDriver,
+}
