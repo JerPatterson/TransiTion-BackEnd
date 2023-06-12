@@ -1,11 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { Stop } from 'src/entities/Stop';
 import { StopDto } from 'src/static/utils/dtos';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class StopService {
   async getStops() {
     return Stop.find({
+      select: {
+        stop_agency_id: true,
+        stop_id: true,
+        stop_lat: true,
+        stop_lon: true,
+      },
+    });
+  }
+
+  async getStopsFromCoordinates(
+    minLat: number,
+    minLon: number,
+    maxLat: number,
+    maxLon: number,
+  ) {
+    return Stop.find({
+      where: {
+        stop_lat: Between(minLat, maxLat),
+        stop_lon: Between(minLon, maxLon),
+      },
       select: {
         stop_agency_id: true,
         stop_id: true,
