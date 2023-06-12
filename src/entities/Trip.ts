@@ -13,7 +13,7 @@ import {
 } from 'src/static/utils/enums';
 import { Route } from './Route';
 import { Time } from './Time';
-import { ShapePt } from './ShapePt';
+import { Shape } from './Shape';
 
 @Entity({ name: 'trips' })
 @Unique(['trip_id', 'agency_id', 'route_id', 'service_id'])
@@ -57,6 +57,6 @@ export class Trip extends BaseEntity {
   @OneToMany(() => Time, (time) => time.trip)
   times: Time[];
 
-  @OneToMany(() => ShapePt, (shape_point) => shape_point.trip)
-  shape_points: ShapePt[];
+  @OneToMany(() => Shape, (shape) => shape.trip)
+  shape_points: Shape[];
 }

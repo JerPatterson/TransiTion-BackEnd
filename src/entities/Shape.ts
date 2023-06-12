@@ -10,7 +10,7 @@ import { Trip } from './Trip';
 
 @Entity({ name: 'shapes' })
 @Unique(['shape_id', 'agency_id', 'shape_pt_sequence'])
-export class ShapePt extends BaseEntity {
+export class Shape extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
 

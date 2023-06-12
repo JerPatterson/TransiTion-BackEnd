@@ -1,9 +1,9 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
-  NotFoundException,
+  HttpException,
+  HttpStatus,
   Param,
   Put,
 } from '@nestjs/common';
@@ -25,7 +25,7 @@ export class TimeController {
         tripId,
       );
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -39,7 +39,7 @@ export class TimeController {
         await this.timeService.updateTime(agencyId, time);
       });
     } catch {
-      return BadRequestException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 }

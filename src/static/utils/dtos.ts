@@ -74,6 +74,15 @@ export class TimeDto {
   timepoint?: number;
 }
 
+export class ShapeDto {
+  agency_id: string;
+  shape_id: string;
+  shape_pt_lat: number;
+  shape_pt_lon: number;
+  shape_pt_sequence: number;
+  shape_dist_traveled?: number;
+}
+
 export class AreaDto {
   minLat: number;
   maxLat: number;

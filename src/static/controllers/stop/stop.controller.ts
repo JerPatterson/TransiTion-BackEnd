@@ -3,7 +3,8 @@ import {
   Body,
   Controller,
   Get,
-  NotFoundException,
+  HttpException,
+  HttpStatus,
   Param,
   Put,
 } from '@nestjs/common';
@@ -19,7 +20,7 @@ export class StopsController {
     try {
       return await this.stopService.getStops(agencyId);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -30,7 +31,7 @@ export class StopsController {
     try {
       return await this.stopService.getStopsFromArea(area);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -42,7 +43,7 @@ export class StopsController {
     try {
       return await this.stopService.getStopById(agencyId, stopId);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -56,7 +57,7 @@ export class StopsController {
         await this.stopService.updateStop(agencyId, stop);
       });
     } catch {
-      return BadRequestException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 }

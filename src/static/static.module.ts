@@ -15,15 +15,19 @@ import { TripController } from './controllers/trip/trip.controller';
 import { TripService } from './services/trip/trip.service';
 import { TimeController } from './controllers/time/time.controller';
 import { TimeService } from './services/time/time.service';
+import { ShapeController } from './controllers/shape/shapes.controller';
+import { ShapeService } from './services/shape/shape.service';
+import { Shape } from 'src/entities/Shape';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Agency, Stop, Route, Trip, Time])],
+  imports: [TypeOrmModule.forFeature([Agency, Stop, Route, Trip, Time, Shape])],
   controllers: [
     AgencyController,
     StopsController,
     RouteController,
     TripController,
     TimeController,
+    ShapeController,
   ],
   providers: [
     AgencyService,
@@ -31,6 +35,7 @@ import { TimeService } from './services/time/time.service';
     RouteService,
     TripService,
     TimeService,
+    ShapeService,
   ],
 })
 export class StaticModule {}

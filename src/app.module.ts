@@ -8,6 +8,7 @@ import { Stop } from './entities/Stop';
 import { Trip } from './entities/Trip';
 import { Time } from './entities/Time';
 import { Route } from './entities/Route';
+import { Shape } from './entities/Shape';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -21,7 +22,7 @@ dotenv.config();
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [Agency, Stop, Route, Time, Trip],
+      entities: [Agency, Stop, Route, Time, Trip, Shape],
     }),
     StaticModule,
   ],

@@ -1,9 +1,9 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
-  NotFoundException,
+  HttpException,
+  HttpStatus,
   Param,
   Put,
 } from '@nestjs/common';
@@ -19,7 +19,7 @@ export class TripController {
     try {
       return await this.tripService.getTrips(agencyId);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -31,7 +31,7 @@ export class TripController {
     try {
       return await this.tripService.getTripById(agencyId, tripId);
     } catch {
-      return NotFoundException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -45,7 +45,7 @@ export class TripController {
         await this.tripService.updateTrip(agencyId, trip);
       });
     } catch {
-      return BadRequestException;
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 }
