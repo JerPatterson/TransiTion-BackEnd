@@ -3,7 +3,6 @@ import {
   Column,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryColumn,
   Unique,
 } from 'typeorm';
@@ -19,13 +18,13 @@ export class Stop extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 30 })
   stop_id: string;
 
-  @Column({ type: 'varchar', length: 30, nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   stop_code: string;
 
-  @Column({ type: 'varchar' })
+  @Column()
   stop_name: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ nullable: true })
   stop_desc: string;
 
   @Column({ type: 'float' })
@@ -34,7 +33,7 @@ export class Stop extends BaseEntity {
   @Column({ type: 'float' })
   stop_lon: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   zone_id: string;
 
   @Column({ nullable: true })
@@ -43,19 +42,19 @@ export class Stop extends BaseEntity {
   @Column({ type: 'enum', enum: LocationType })
   location_type: number;
 
-  @OneToOne(() => Stop, (parent_station) => parent_station.stop_id)
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   parent_station: string;
 
   @Column({ nullable: true })
   stop_timezone: string;
 
-  @Column({ type: 'enum', enum: WheelchairBoardingType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: WheelchairBoardingType })
   wheelchair_boarding: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   level_id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   platform_code: string;
 
   @Column({ nullable: true })

@@ -19,37 +19,37 @@ export class Time extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 30 })
   trip_id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 10 })
   arrival_time: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 10 })
   departure_time: string;
 
   @PrimaryColumn({ type: 'varchar', length: 30 })
   stop_id: string;
 
-  @Column()
+  @Column({ type: 'int' })
   stop_sequence: number;
 
   @Column({ nullable: true })
   stop_headsign: string;
 
-  @Column({ type: 'enum', enum: PickupType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: PickupType })
   pickup_type: number;
 
-  @Column({ type: 'enum', enum: DropOffType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: DropOffType })
   drop_off_type: number;
 
-  @Column({ type: 'enum', enum: PickupType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: PickupType })
   continuous_pickup: number;
 
-  @Column({ type: 'enum', enum: DropOffType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: DropOffType })
   continuous_drop_off: number;
 
-  @Column({ type: 'float', nullable: true })
+  @Column({ nullable: true, type: 'float' })
   shape_dist_traveled: number;
 
-  @Column({ type: 'enum', enum: TimePointType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: TimePointType })
   timepoint: number;
 
   @ManyToOne(() => Trip, (trip) => trip.times)

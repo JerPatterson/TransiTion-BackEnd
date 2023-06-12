@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'agencies' })
 export class Agency extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
 
   @Column()
@@ -11,13 +11,13 @@ export class Agency extends BaseEntity {
   @Column()
   agency_url: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 30 })
   agency_timezone: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   agency_lang: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   agency_phone: string;
 
   @Column({ nullable: true })

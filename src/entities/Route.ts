@@ -17,10 +17,10 @@ import { Trip } from './Trip';
 @Entity({ name: 'routes' })
 @Unique(['route_id', 'agency_id'])
 export class Route extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   route_id: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
 
   @Column()
@@ -38,22 +38,22 @@ export class Route extends BaseEntity {
   @Column({ nullable: true })
   route_url: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 10 })
   route_color: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 10 })
   route_text_color: string;
 
   @Column({ type: 'int', nullable: true })
   route_sort_order: number;
 
-  @Column({ type: 'enum', enum: PickupType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: PickupType })
   continuous_pickup: number;
 
-  @Column({ type: 'enum', enum: DropOffType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: DropOffType })
   continuous_drop_off: number;
 
-  @Column({ type: 'enum', enum: WheelchairBoardingType, nullable: true })
+  @Column({ nullable: true, type: 'enum', enum: WheelchairBoardingType })
   wheelchair_boarding: number;
 
   @OneToMany(() => Trip, (trip) => trip.route)

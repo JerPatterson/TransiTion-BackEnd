@@ -39,10 +39,10 @@ export class Trip extends BaseEntity {
   @Column({ nullable: true })
   direction_id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   block_id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 30 })
   shape_id: string;
 
   @Column({ type: 'enum', enum: WheelchairBoardingType, nullable: true })
