@@ -44,3 +44,8 @@ export enum BikesBoardingType {
   SomeVehicles,
   NotPossible,
 }
+
+export enum TimePointType {
+  Approximated,
+  Exact,
+}
