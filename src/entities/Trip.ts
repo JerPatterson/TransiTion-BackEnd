@@ -1,8 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, Unique } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  Unique,
+} from 'typeorm';
 import {
   BikesBoardingType,
   WheelchairBoardingType,
 } from 'src/static/utils/enums';
+import { Route } from './Route';
 
 @Entity({ name: 'trips' })
 @Unique(['trip_id', 'agency_id', 'route_id', 'service_id'])
@@ -39,4 +47,7 @@ export class Trip extends BaseEntity {
 
   @Column({ type: 'enum', enum: BikesBoardingType, nullable: true })
   bikes_allowed: number;
+
+  @ManyToOne(() => Route, (route) => route.trips)
+  route: Route;
 }
