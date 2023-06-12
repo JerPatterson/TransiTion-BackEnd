@@ -22,7 +22,6 @@ dotenv.config();
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [Agency, Stop, Route, Time, Trip],
-      synchronize: true,
     }),
     StaticModule,
   ],

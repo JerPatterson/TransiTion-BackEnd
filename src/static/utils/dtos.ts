@@ -47,7 +47,6 @@ export class RouteDto {
 }
 
 export class TripDto {
-  agency_id: string;
   route_id: string;
   service_id: string;
   trip_id: string;
@@ -61,7 +60,6 @@ export class TripDto {
 }
 
 export class TimeDto {
-  agency_id: string;
   trip_id: string;
   arrival_time: string;
   departure_time: string;
