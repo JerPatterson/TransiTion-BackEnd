@@ -26,6 +26,8 @@ export class StopDto {
   wheelchair_boarding?: WheelchairBoardingType;
   level_id?: string;
   platform_code?: string;
+  stop_shelter: boolean;
+  stop_display: boolean;
 }
 
 export class RouteDto {
@@ -42,4 +44,34 @@ export class RouteDto {
   continuous_pickup?: string;
   continuous_drop_off?: string;
   wheelchair_boarding?: number;
+}
+
+export class TripDto {
+  agency_id: string;
+  route_id: string;
+  service_id: string;
+  trip_id: string;
+  trip_headsign: string;
+  trip_short_name?: string;
+  direction_id?: number;
+  block_id?: string;
+  shape_id: string;
+  wheelchair_accessible?: number;
+  bikes_allowed?: number;
+}
+
+export class TimeDto {
+  agency_id: string;
+  trip_id: string;
+  arrival_time: string;
+  departure_time: string;
+  stop_id: string;
+  stop_sequence: number;
+  stop_headsign?: string;
+  pickup_type?: number;
+  drop_off_type?: number;
+  continuous_pickup?: number;
+  continuous_drop_off?: number;
+  shape_dist_traveled?: number;
+  timepoint?: number;
 }

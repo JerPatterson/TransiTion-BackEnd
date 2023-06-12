@@ -32,7 +32,7 @@ export class Trip extends BaseEntity {
   @Column()
   trip_headsign: string;
 
-  @Column()
+  @Column({ nullable: true })
   trip_short_name: string;
 
   @Column({ nullable: true })
