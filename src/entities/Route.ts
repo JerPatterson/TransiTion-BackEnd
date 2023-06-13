@@ -2,8 +2,10 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 import {
@@ -13,17 +15,21 @@ import {
   WheelchairBoardingType,
 } from 'src/static/utils/enums';
 import { Trip } from './Trip';
+import { Agency } from './Agency';
 
 @Entity({ name: 'routes' })
 @Unique(['route_id', 'agency_id'])
 export class Route extends BaseEntity {
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 15 })
   route_id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 25 })
   route_short_name: string;
 
   @Column()
@@ -44,7 +50,7 @@ export class Route extends BaseEntity {
   @Column({ nullable: true, type: 'varchar', length: 10 })
   route_text_color: string;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ nullable: true, type: 'int' })
   route_sort_order: number;
 
   @Column({ nullable: true, type: 'enum', enum: PickupType })
@@ -55,6 +61,10 @@ export class Route extends BaseEntity {
 
   @Column({ nullable: true, type: 'enum', enum: WheelchairBoardingType })
   wheelchair_boarding: number;
+
+  @ManyToOne(() => Agency, (agency) => agency.routes)
+  @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
+  agency: Agency;
 
   @OneToMany(() => Trip, (trip) => trip.route)
   trips: Trip[];

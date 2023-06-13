@@ -1,8 +1,26 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import { Stop } from './Stop';
+import { Route } from './Route';
+import { Trip } from './Trip';
+import { Calendar } from './Calendar';
+import { CalendarDate } from './CalendarDate';
+import { Shape } from './Shape';
+import { Time } from './Time';
 
 @Entity({ name: 'agencies' })
+@Unique(['agency_id'])
 export class Agency extends BaseEntity {
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 15 })
   agency_id: string;
 
   @Column()
@@ -11,13 +29,13 @@ export class Agency extends BaseEntity {
   @Column()
   agency_url: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 40 })
   agency_timezone: string;
 
-  @Column({ nullable: true, type: 'varchar', length: 30 })
+  @Column({ nullable: true, type: 'varchar', length: 20 })
   agency_lang: string;
 
-  @Column({ nullable: true, type: 'varchar', length: 30 })
+  @Column({ nullable: true, type: 'varchar', length: 20 })
   agency_phone: string;
 
   @Column({ nullable: true })
@@ -25,4 +43,25 @@ export class Agency extends BaseEntity {
 
   @Column({ nullable: true })
   agency_email: string;
+
+  @OneToMany(() => Stop, (stop) => stop.agency)
+  stops: Stop[];
+
+  @OneToMany(() => Route, (route) => route.agency)
+  routes: Route[];
+
+  @OneToMany(() => Trip, (trip) => trip.agency)
+  trips: Trip[];
+
+  @OneToMany(() => Time, (time) => time.agency)
+  times: Time[];
+
+  @OneToMany(() => Calendar, (calendar) => calendar.agency)
+  calendar: Calendar[];
+
+  @OneToMany(() => CalendarDate, (calendar_date) => calendar_date.agency)
+  calendar_dates: CalendarDate[];
+
+  @OneToMany(() => Shape, (shape) => shape.agency)
+  shapes: Shape[];
 }

@@ -1,18 +1,32 @@
 import { ServiceExceptionType } from 'src/static/utils/enums';
-import { BaseEntity, Column, Entity, PrimaryColumn, Unique } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Agency } from './Agency';
 
 @Entity({ name: 'calendardates' })
-@Unique(['agency_id', 'service_id', 'date'])
 export class CalendarDate extends BaseEntity {
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   service_id: string;
 
-  @PrimaryColumn({ type: 'bigint' })
+  @Column({ type: 'bigint' })
   date: number;
 
   @Column({ type: 'enum', enum: ServiceExceptionType })
   exception_type: number;
+
+  @ManyToOne(() => Agency, (agency) => agency.calendar_dates)
+  @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
+  agency: Agency;
 }

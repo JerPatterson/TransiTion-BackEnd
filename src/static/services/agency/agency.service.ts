@@ -4,7 +4,7 @@ import { AgencyDto } from 'src/static/utils/dtos';
 
 @Injectable()
 export class AgencyService {
-  getAgencies() {
+  async getAgencies() {
     return Agency.find();
   }
 

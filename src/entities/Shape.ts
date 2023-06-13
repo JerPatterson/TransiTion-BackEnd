@@ -2,19 +2,24 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 import { Trip } from './Trip';
+import { Agency } from './Agency';
 
 @Entity({ name: 'shapes' })
 @Unique(['shape_id', 'agency_id', 'shape_pt_sequence'])
 export class Shape extends BaseEntity {
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   shape_id: string;
 
   @Column({ type: 'float' })
@@ -23,11 +28,15 @@ export class Shape extends BaseEntity {
   @Column({ type: 'float' })
   shape_pt_lon: number;
 
-  @PrimaryColumn({ type: 'int' })
+  @Column({ type: 'int' })
   shape_pt_sequence: number;
 
-  @Column({ type: 'float', nullable: true })
+  @Column({ nullable: true, type: 'float' })
   shape_dist_traveled: number;
+
+  @ManyToOne(() => Agency, (agency) => agency.shapes)
+  @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
+  agency: Agency;
 
   @ManyToOne(() => Trip, (trip) => trip.times)
   trip: Trip;

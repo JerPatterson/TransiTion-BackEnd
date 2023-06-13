@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Agency } from 'src/entities/Agency';
 import { Stop } from 'src/entities/Stop';
 import { Time } from 'src/entities/Time';
 import { Trip } from 'src/entities/Trip';
@@ -13,7 +14,8 @@ export class TimeService {
   }
 
   async updateTime(agencyId: string, timeDto: TimeDto) {
-    const time = Time.create({ ...timeDto, agency_id: agencyId });
+    const time = Time.create({ ...timeDto });
+    time.agency = await Agency.findOne({ where: { agency_id: agencyId } });
     time.stop = await Stop.findOne({
       where: { stop_id: timeDto.stop_id, agency_id: agencyId },
     });

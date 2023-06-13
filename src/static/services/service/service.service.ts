@@ -5,6 +5,7 @@ import { ONE_SEC_IN_MS, SECONDS_IN_DAY } from 'src/static/utils/constants';
 import { CalendarDateDto, CalendarDto } from 'src/static/utils/dtos';
 import { Day, ServiceExceptionType } from 'src/static/utils/enums';
 import { AgencyService } from '../agency/agency.service';
+import { Agency } from 'src/entities/Agency';
 
 @Injectable()
 export class ServiceService {
@@ -23,22 +24,23 @@ export class ServiceService {
   }
 
   async getYesterdayServiceId(agencyId: string): Promise<string> {
-    return this.getServiceId(agencyId, -2 * SECONDS_IN_DAY * ONE_SEC_IN_MS);
+    return this.getServiceId(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
   async getTomorrowServiceId(agencyId: string): Promise<string> {
-    return this.getServiceId(agencyId, 5 * SECONDS_IN_DAY * ONE_SEC_IN_MS);
+    return this.getServiceId(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
   async updateCalendar(agencyId: string, calendarDto: CalendarDto) {
-    const calendar = Calendar.create({ ...calendarDto, agency_id: agencyId });
+    const calendar = Calendar.create({ ...calendarDto });
+    calendar.agency = await Agency.findOne({ where: { agency_id: agencyId } });
     return Calendar.save(calendar);
   }
 
   async updateCalendarDate(agencyId: string, calendarDateDto: CalendarDateDto) {
-    const calendarDate = CalendarDate.create({
-      ...calendarDateDto,
-      agency_id: agencyId,
+    const calendarDate = CalendarDate.create({ ...calendarDateDto });
+    calendarDate.agency = await Agency.findOne({
+      where: { agency_id: agencyId },
     });
     return CalendarDate.save(calendarDate);
   }

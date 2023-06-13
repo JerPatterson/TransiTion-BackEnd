@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Agency } from 'src/entities/Agency';
 import { Stop } from 'src/entities/Stop';
 import { AreaDto, StopDto } from 'src/static/utils/dtos';
 import { Between } from 'typeorm';
@@ -31,7 +32,8 @@ export class StopService {
   }
 
   async updateStop(agencyId: string, stopDto: StopDto) {
-    const stop = Stop.create({ ...stopDto, agency_id: agencyId });
+    const stop = Stop.create({ ...stopDto });
+    stop.agency = await Agency.findOne({ where: { agency_id: agencyId } });
     return Stop.save(stop);
   }
 }

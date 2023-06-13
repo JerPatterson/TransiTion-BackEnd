@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Agency } from 'src/entities/Agency';
 import { Route } from 'src/entities/Route';
 import { RouteDto } from 'src/static/utils/dtos';
 
@@ -24,7 +25,8 @@ export class RouteService {
   }
 
   async updateRoute(agencyId: string, routeDto: RouteDto) {
-    const route = Route.create({ ...routeDto, agency_id: agencyId });
+    const route = Route.create({ ...routeDto });
+    route.agency = await Agency.findOne({ where: { agency_id: agencyId } });
     return Route.save(route);
   }
 }

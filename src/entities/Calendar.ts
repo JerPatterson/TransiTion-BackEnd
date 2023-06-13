@@ -1,38 +1,54 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, Unique } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import { Agency } from './Agency';
 
 @Entity({ name: 'calendar' })
-@Unique(['agency_id', 'service_id', 'start_date'])
+@Unique(['agency_id', 'service_id'])
 export class Calendar extends BaseEntity {
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   service_id: string;
 
-  @Column()
+  @Column({ type: 'boolean' })
   monday: boolean;
 
-  @Column()
+  @Column({ type: 'boolean' })
   tuesday: boolean;
 
-  @Column()
+  @Column({ type: 'boolean' })
   wednesday: boolean;
 
-  @Column()
+  @Column({ type: 'boolean' })
   thursday: boolean;
 
-  @Column()
+  @Column({ type: 'boolean' })
   friday: boolean;
 
-  @Column()
+  @Column({ type: 'boolean' })
   saturday: boolean;
 
-  @Column()
+  @Column({ type: 'boolean' })
   sunday: boolean;
 
-  @PrimaryColumn({ type: 'bigint' })
+  @Column({ type: 'bigint' })
   start_date: number;
 
   @Column({ type: 'bigint' })
   end_date: number;
+
+  @ManyToOne(() => Agency, (agency) => agency.calendar)
+  @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
+  agency: Agency;
 }
