@@ -30,9 +30,9 @@ export class Calendar extends BaseEntity {
   @Column()
   sunday: boolean;
 
-  @PrimaryColumn({ type: 'date' })
-  start_date: Date;
+  @PrimaryColumn({ type: 'bigint' })
+  start_date: number;
 
-  @Column({ type: 'date' })
-  end_date: Date;
+  @Column({ type: 'bigint' })
+  end_date: number;
 }

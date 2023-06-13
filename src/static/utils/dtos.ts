@@ -93,14 +93,14 @@ export class CalendarDto {
   friday: boolean;
   saturday: boolean;
   sunday: boolean;
-  start_date: Date;
-  end_date: Date;
+  start_date: number;
+  end_date: number;
 }
 
 export class CalendarDateDto {
   agency_id: string;
   service_id: string;
-  date: Date;
+  date: number;
   exception_type: number;
 }
 

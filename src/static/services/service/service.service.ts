@@ -19,15 +19,15 @@ export class ServiceService {
   }
 
   async getTodayServiceId(agencyId: string): Promise<string> {
-    return await this.getServiceId(agencyId, 0);
+    return this.getServiceId(agencyId, 0);
   }
 
   async getYesterdayServiceId(agencyId: string): Promise<string> {
-    return await this.getServiceId(agencyId, -SECONDS_IN_DAY * ONE_SEC_IN_MS);
+    return this.getServiceId(agencyId, -2 * SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
   async getTomorrowServiceId(agencyId: string): Promise<string> {
-    return await this.getServiceId(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
+    return this.getServiceId(agencyId, 5 * SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
   async updateCalendar(agencyId: string, calendarDto: CalendarDto) {
@@ -50,10 +50,11 @@ export class ServiceService {
     const agency = await this.agencyService.getAgencyById(agencyId);
     const now = this.getCurrrentDateInAgencyTimezone(agency.agency_timezone);
     const looking = new Date(now.getTime() + timeOffset);
+
     const specialServiceId = await this.checkForException(agencyId, looking);
     if (specialServiceId) return specialServiceId;
 
-    const serviceId = await this.checkForStandard(agencyId, now);
+    const serviceId = await this.checkForStandard(agencyId, looking);
     return serviceId ? serviceId : '';
   }
 
@@ -68,8 +69,11 @@ export class ServiceService {
     const calendar = await this.getCalendar(agencyId);
     return calendar.find((e: Calendar) => {
       return (
-        this.isBetweenTwoDates(date, e.start_date, e.end_date) &&
-        this.isServiceOfDay(e, date.getDay())
+        this.isBetweenTwoDates(
+          date,
+          new Date(Number(e.start_date)),
+          new Date(Number(e.end_date)),
+        ) && this.isServiceOfDay(e, date.getDay())
       );
     })?.service_id;
   }
@@ -81,7 +85,7 @@ export class ServiceService {
     const calendarDates = await this.getCalendarDates(agencyId);
     return calendarDates.find((e: CalendarDate) => {
       return (
-        this.isTheSameDate(date, e.date) &&
+        this.isTheSameDate(date, new Date(Number(e.date))) &&
         e.exception_type === ServiceExceptionType.ServiceAddedForTheDate
       );
     })?.service_id;

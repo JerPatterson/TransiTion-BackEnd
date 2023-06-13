@@ -36,6 +36,7 @@ export class TimeController {
   ) {
     try {
       times.forEach(async (time) => {
+        if (!time.trip_id) console.log(time);
         await this.timeService.updateTime(agencyId, time);
       });
     } catch {

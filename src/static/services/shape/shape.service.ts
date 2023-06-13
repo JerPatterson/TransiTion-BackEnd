@@ -14,6 +14,6 @@ export class ShapeService {
   async updateShape(agencyId: string, shapeDto: ShapeDto) {
     const shape = Shape.create({ ...shapeDto, agency_id: agencyId });
     shape.trip = await Trip.findOne({ where: { shape_id: shapeDto.shape_id } });
-    return Shape.save(Shape);
+    return Shape.save(shape);
   }
 }

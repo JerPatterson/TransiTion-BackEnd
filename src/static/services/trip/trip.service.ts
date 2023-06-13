@@ -24,7 +24,9 @@ export class TripService {
 
   async updateTrip(agencyId: string, tripDto: TripDto) {
     const trip = Trip.create({ ...tripDto, agency_id: agencyId });
-    trip.route = await Route.findOne({ where: { route_id: tripDto.route_id } });
+    trip.route = await Route.findOne({
+      where: { route_id: tripDto.route_id, agency_id: agencyId },
+    });
     return Trip.save(trip);
   }
 }

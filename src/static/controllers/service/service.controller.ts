@@ -35,7 +35,7 @@ export class ServiceController {
   @Get('tomorrow/:agencyId')
   async getTomorrowServiceId(@Param('agencyId') agencyId: string) {
     try {
-      return await this.serviceService.getTodayServiceId(agencyId);
+      return await this.serviceService.getTomorrowServiceId(agencyId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
