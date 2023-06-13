@@ -91,7 +91,7 @@ export class CalendarDto {
   wednesday: boolean;
   thursday: boolean;
   friday: boolean;
-  sathurday: boolean;
+  saturday: boolean;
   sunday: boolean;
   start_date: Date;
   end_date: Date;

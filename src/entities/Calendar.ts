@@ -25,7 +25,7 @@ export class Calendar extends BaseEntity {
   friday: boolean;
 
   @Column()
-  sathurday: boolean;
+  saturday: boolean;
 
   @Column()
   sunday: boolean;
