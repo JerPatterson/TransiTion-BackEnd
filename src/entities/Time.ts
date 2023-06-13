@@ -13,7 +13,7 @@ import { Stop } from './Stop';
 import { Agency } from './Agency';
 
 @Entity({ name: 'times' })
-@Unique(['trip_id', 'agency_id', 'stop_id'])
+@Unique(['trip_id', 'agency_id', 'stop_id', 'arrival_time'])
 export class Time extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
