@@ -49,3 +49,8 @@ export enum TimePointType {
   Approximated,
   Exact,
 }
+
+export enum ServiceExceptionType {
+  ServiceAddedForTheDate = 1,
+  ServiceRemovedForTheDate = 2,
+}
