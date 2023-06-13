@@ -1,16 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { Calendar } from 'src/entities/Calendar';
 import { CalendarDate } from 'src/entities/CalendarDate';
+import { ONE_SEC_IN_MS, SECONDS_IN_DAY } from 'src/static/utils/constants';
 import { CalendarDateDto, CalendarDto } from 'src/static/utils/dtos';
+import { Day, ServiceExceptionType } from 'src/static/utils/enums';
+import { AgencyService } from '../agency/agency.service';
 
 @Injectable()
 export class ServiceService {
+  constructor(private agencyService: AgencyService) {}
+
   async getCalendar(agencyId: string) {
     return Calendar.find({ where: { agency_id: agencyId } });
   }
 
   async getCalendarDates(agencyId: string) {
     return CalendarDate.find({ where: { agency_id: agencyId } });
+  }
+
+  async getTodayServiceId(agencyId: string): Promise<string> {
+    return await this.getServiceId(agencyId, 0);
+  }
+
+  async getYesterdayServiceId(agencyId: string): Promise<string> {
+    return await this.getServiceId(agencyId, -SECONDS_IN_DAY * ONE_SEC_IN_MS);
+  }
+
+  async getTomorrowServiceId(agencyId: string): Promise<string> {
+    return await this.getServiceId(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
   async updateCalendar(agencyId: string, calendarDto: CalendarDto) {
@@ -24,5 +41,85 @@ export class ServiceService {
       agency_id: agencyId,
     });
     return CalendarDate.save(calendarDate);
+  }
+
+  private async getServiceId(
+    agencyId: string,
+    timeOffset: number,
+  ): Promise<string> {
+    const agency = await this.agencyService.getAgencyById(agencyId);
+    const now = this.getCurrrentDateInAgencyTimezone(agency.agency_timezone);
+    const looking = new Date(now.getTime() + timeOffset);
+    const specialServiceId = await this.checkForException(agencyId, looking);
+    if (specialServiceId) return specialServiceId;
+
+    const serviceId = await this.checkForStandard(agencyId, now);
+    return serviceId ? serviceId : '';
+  }
+
+  private getCurrrentDateInAgencyTimezone(timeZone: string) {
+    return new Date(new Date().toLocaleString('en-US', { timeZone }));
+  }
+
+  private async checkForStandard(
+    agencyId: string,
+    date: Date,
+  ): Promise<string | undefined> {
+    const calendar = await this.getCalendar(agencyId);
+    return calendar.find((e: Calendar) => {
+      return (
+        this.isBetweenTwoDates(date, e.start_date, e.end_date) &&
+        this.isServiceOfDay(e, date.getDay())
+      );
+    })?.service_id;
+  }
+
+  private async checkForException(
+    agencyId: string,
+    date: Date,
+  ): Promise<string | undefined> {
+    const calendarDates = await this.getCalendarDates(agencyId);
+    return calendarDates.find((e: CalendarDate) => {
+      return (
+        this.isTheSameDate(date, e.date) &&
+        e.exception_type === ServiceExceptionType.ServiceAddedForTheDate
+      );
+    })?.service_id;
+  }
+
+  private isTheSameDate(a: Date, b: Date) {
+    return (
+      a.getDay() === b.getDay() &&
+      a.getMonth() === b.getMonth() &&
+      a.getFullYear() === b.getFullYear()
+    );
+  }
+
+  private isBetweenTwoDates(value: Date, start: Date, end: Date) {
+    return start.getTime() < value.getTime() && value.getTime() < end.getTime();
+  }
+
+  private isServiceOfDay(
+    calendarElement: Calendar,
+    dayOfTheWeek: number,
+  ): boolean {
+    switch (dayOfTheWeek) {
+      case Day.Sunday:
+        return calendarElement.sunday;
+      case Day.Monday:
+        return calendarElement.monday;
+      case Day.Tuesday:
+        return calendarElement.tuesday;
+      case Day.Wednesday:
+        return calendarElement.wednesday;
+      case Day.Thursday:
+        return calendarElement.thursday;
+      case Day.Friday:
+        return calendarElement.friday;
+      case Day.Saturday:
+        return calendarElement.saturday;
+      default:
+        return false;
+    }
   }
 }

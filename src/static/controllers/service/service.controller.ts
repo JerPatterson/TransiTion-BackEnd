@@ -14,6 +14,33 @@ import { CalendarDateDto, CalendarDto } from 'src/static/utils/dtos';
 export class ServiceController {
   constructor(private serviceService: ServiceService) {}
 
+  @Get('yesterday/:agencyId')
+  async getYesterdayServiceId(@Param('agencyId') agencyId: string) {
+    try {
+      return await this.serviceService.getYesterdayServiceId(agencyId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('today/:agencyId')
+  async getTodayServiceId(@Param('agencyId') agencyId: string) {
+    try {
+      return await this.serviceService.getTodayServiceId(agencyId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('tomorrow/:agencyId')
+  async getTomorrowServiceId(@Param('agencyId') agencyId: string) {
+    try {
+      return await this.serviceService.getTodayServiceId(agencyId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Get('/calendar/:agencyId')
   async getCalendar(@Param('agencyId') agencyId: string) {
     try {

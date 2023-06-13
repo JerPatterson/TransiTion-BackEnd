@@ -54,3 +54,13 @@ export enum ServiceExceptionType {
   ServiceAddedForTheDate = 1,
   ServiceRemovedForTheDate = 2,
 }
+
+export enum Day {
+  Sunday,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+}
