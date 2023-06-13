@@ -19,16 +19,16 @@ export class ServiceService {
     return CalendarDate.find({ where: { agency_id: agencyId } });
   }
 
-  async getTodayServiceId(agencyId: string): Promise<string> {
-    return this.getServiceId(agencyId, 0);
+  async getTodayServiceIds(agencyId: string): Promise<string[]> {
+    return this.getServiceIds(agencyId, 0);
   }
 
-  async getYesterdayServiceId(agencyId: string): Promise<string> {
-    return this.getServiceId(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
+  async getYesterdayServiceIds(agencyId: string): Promise<string[]> {
+    return this.getServiceIds(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
-  async getTomorrowServiceId(agencyId: string): Promise<string> {
-    return this.getServiceId(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
+  async getTomorrowServiceIds(agencyId: string): Promise<string[]> {
+    return this.getServiceIds(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
   }
 
   async updateCalendar(agencyId: string, calendarDto: CalendarDto) {
@@ -45,19 +45,19 @@ export class ServiceService {
     return CalendarDate.save(calendarDate);
   }
 
-  private async getServiceId(
+  private async getServiceIds(
     agencyId: string,
     timeOffset: number,
-  ): Promise<string> {
+  ): Promise<string[]> {
     const agency = await this.agencyService.getAgencyById(agencyId);
     const now = this.getCurrrentDateInAgencyTimezone(agency.agency_timezone);
     const looking = new Date(now.getTime() + timeOffset);
 
     const specialServiceId = await this.checkForException(agencyId, looking);
-    if (specialServiceId) return specialServiceId;
+    if (specialServiceId.length) return specialServiceId;
 
     const serviceId = await this.checkForStandard(agencyId, looking);
-    return serviceId ? serviceId : '';
+    return serviceId;
   }
 
   private getCurrrentDateInAgencyTimezone(timeZone: string) {
@@ -67,30 +67,34 @@ export class ServiceService {
   private async checkForStandard(
     agencyId: string,
     date: Date,
-  ): Promise<string | undefined> {
+  ): Promise<string[]> {
     const calendar = await this.getCalendar(agencyId);
-    return calendar.find((e: Calendar) => {
-      return (
-        this.isBetweenTwoDates(
-          date,
-          new Date(Number(e.start_date)),
-          new Date(Number(e.end_date)),
-        ) && this.isServiceOfDay(e, date.getDay())
-      );
-    })?.service_id;
+    return calendar
+      .filter((e: Calendar) => {
+        return (
+          this.isBetweenTwoDates(
+            date,
+            new Date(Number(e.start_date)),
+            new Date(Number(e.end_date)),
+          ) && this.isServiceOfDay(e, date.getDay())
+        );
+      })
+      .map((e: Calendar) => e.service_id);
   }
 
   private async checkForException(
     agencyId: string,
     date: Date,
-  ): Promise<string | undefined> {
+  ): Promise<string[]> {
     const calendarDates = await this.getCalendarDates(agencyId);
-    return calendarDates.find((e: CalendarDate) => {
-      return (
-        this.isTheSameDate(date, new Date(Number(e.date))) &&
-        e.exception_type === ServiceExceptionType.ServiceAddedForTheDate
-      );
-    })?.service_id;
+    return calendarDates
+      .filter((e: CalendarDate) => {
+        return (
+          this.isTheSameDate(date, new Date(Number(e.date))) &&
+          e.exception_type === ServiceExceptionType.ServiceAddedForTheDate
+        );
+      })
+      .map((e: CalendarDate) => e.service_id);
   }
 
   private isTheSameDate(a: Date, b: Date) {

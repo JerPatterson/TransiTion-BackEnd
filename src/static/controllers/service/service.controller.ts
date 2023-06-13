@@ -15,27 +15,27 @@ export class ServiceController {
   constructor(private serviceService: ServiceService) {}
 
   @Get('yesterday/:agencyId')
-  async getYesterdayServiceId(@Param('agencyId') agencyId: string) {
+  async getYesterdayServiceIds(@Param('agencyId') agencyId: string) {
     try {
-      return await this.serviceService.getYesterdayServiceId(agencyId);
+      return await this.serviceService.getYesterdayServiceIds(agencyId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
   @Get('today/:agencyId')
-  async getTodayServiceId(@Param('agencyId') agencyId: string) {
+  async getTodayServiceIds(@Param('agencyId') agencyId: string) {
     try {
-      return await this.serviceService.getTodayServiceId(agencyId);
+      return await this.serviceService.getTodayServiceIds(agencyId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
   @Get('tomorrow/:agencyId')
-  async getTomorrowServiceId(@Param('agencyId') agencyId: string) {
+  async getTomorrowServiceIds(@Param('agencyId') agencyId: string) {
     try {
-      return await this.serviceService.getTomorrowServiceId(agencyId);
+      return await this.serviceService.getTomorrowServiceIds(agencyId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
