@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, PrimaryColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'calendar' })
 @Unique(['agency_id', 'service_id', 'date'])
-export class Calendar extends BaseEntity {
+export class CalendarDate extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
 

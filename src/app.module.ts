@@ -11,6 +11,8 @@ import { Route } from './entities/Route';
 import { Shape } from './entities/Shape';
 
 import dotenv from 'dotenv';
+import { CalendarDate } from './entities/CalendarDate';
+import { Calendar } from './entities/Calendar';
 dotenv.config();
 
 @Module({
@@ -22,7 +24,16 @@ dotenv.config();
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [Agency, Stop, Route, Time, Trip, Shape],
+      entities: [
+        Agency,
+        Stop,
+        Route,
+        Time,
+        Trip,
+        Shape,
+        Calendar,
+        CalendarDate,
+      ],
     }),
     StaticModule,
   ],

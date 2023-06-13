@@ -83,6 +83,27 @@ export class ShapeDto {
   shape_dist_traveled?: number;
 }
 
+export class CalendarDto {
+  agency_id: string;
+  service_id: string;
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+  sathurday: boolean;
+  sunday: boolean;
+  start_date: Date;
+  end_date: Date;
+}
+
+export class CalendarDateDto {
+  agency_id: string;
+  service_id: string;
+  date: Date;
+  exception_type: number;
+}
+
 export class AreaDto {
   minLat: number;
   maxLat: number;

@@ -18,9 +18,24 @@ import { TimeService } from './services/time/time.service';
 import { ShapeController } from './controllers/shape/shapes.controller';
 import { ShapeService } from './services/shape/shape.service';
 import { Shape } from 'src/entities/Shape';
+import { ServiceService } from './services/service/service.service';
+import { ServiceController } from './controllers/service/service.controller';
+import { Calendar } from 'src/entities/Calendar';
+import { CalendarDate } from 'src/entities/CalendarDate';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Agency, Stop, Route, Trip, Time, Shape])],
+  imports: [
+    TypeOrmModule.forFeature([
+      Agency,
+      Stop,
+      Route,
+      Trip,
+      Time,
+      Shape,
+      Calendar,
+      CalendarDate,
+    ]),
+  ],
   controllers: [
     AgencyController,
     StopsController,
@@ -28,6 +43,7 @@ import { Shape } from 'src/entities/Shape';
     TripController,
     TimeController,
     ShapeController,
+    ServiceController,
   ],
   providers: [
     AgencyService,
@@ -36,6 +52,7 @@ import { Shape } from 'src/entities/Shape';
     TripService,
     TimeService,
     ShapeService,
+    ServiceService,
   ],
 })
 export class StaticModule {}

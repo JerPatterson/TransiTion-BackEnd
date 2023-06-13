@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryColumn, Unique } from 'typeorm';
 
 @Entity({ name: 'calendar' })
-@Unique(['agency_id', 'service_id'])
+@Unique(['agency_id', 'service_id', 'start_date'])
 export class Calendar extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 30 })
   agency_id: string;
@@ -30,7 +30,7 @@ export class Calendar extends BaseEntity {
   @Column()
   sunday: boolean;
 
-  @Column({ type: 'date' })
+  @PrimaryColumn({ type: 'date' })
   start_date: Date;
 
   @Column({ type: 'date' })
