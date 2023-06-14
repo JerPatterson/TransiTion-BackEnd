@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -15,21 +14,21 @@ import { AreaDto, StopDto } from 'src/static/utils/dtos';
 export class StopsController {
   constructor(private stopService: StopService) {}
 
-  @Get('/:agencyId')
-  async getStops(@Param('agencyId') agencyId: string) {
+  @Get('/')
+  async getStopsFromArea(@Body() area: AreaDto) {
     try {
-      return await this.stopService.getStops(agencyId);
+      if (!area || area.minLat > area.maxLat || area.minLon > area.maxLon)
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      return await this.stopService.getStopsFromArea(area);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
 
-  @Get('/location')
-  async getStopsFromArea(@Body() area: AreaDto) {
-    if (area.minLat > area.maxLat || area.minLon > area.maxLon)
-      return BadRequestException;
+  @Get('/:agencyId')
+  async getStops(@Param('agencyId') agencyId: string) {
     try {
-      return await this.stopService.getStopsFromArea(area);
+      return await this.stopService.getStops(agencyId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
