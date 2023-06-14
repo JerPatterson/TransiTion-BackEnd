@@ -9,10 +9,10 @@ import { Trip } from './entities/Trip';
 import { Time } from './entities/Time';
 import { Route } from './entities/Route';
 import { Shape } from './entities/Shape';
-
-import dotenv from 'dotenv';
 import { CalendarDate } from './entities/CalendarDate';
 import { Calendar } from './entities/Calendar';
+
+import dotenv from 'dotenv';
 dotenv.config();
 
 @Module({
