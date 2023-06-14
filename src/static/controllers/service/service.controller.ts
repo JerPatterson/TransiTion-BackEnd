@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ServiceService } from 'src/static/services/service/service.service';
-import { CalendarDateDto, CalendarDto } from 'src/static/utils/dtos';
+import { CalendarDateDto, CalendarDto, DateDto } from 'src/static/utils/dtos';
 
 @Controller('services')
 export class ServiceController {
@@ -36,6 +36,18 @@ export class ServiceController {
   async getTomorrowServiceIds(@Param('agencyId') agencyId: string) {
     try {
       return await this.serviceService.getTomorrowServiceIds(agencyId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('date/:agencyId')
+  async getDateServiceIds(
+    @Param('agencyId') agencyId: string,
+    @Body() dateDto: DateDto,
+  ) {
+    try {
+      return await this.serviceService.getDateServiceIds(agencyId, dateDto);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }

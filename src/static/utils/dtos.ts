@@ -110,3 +110,12 @@ export class AreaDto {
   minLon: number;
   maxLon: number;
 }
+
+export class DateDto {
+  year: number;
+  month: number;
+  day: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}

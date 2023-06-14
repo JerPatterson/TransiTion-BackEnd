@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Calendar } from 'src/entities/Calendar';
 import { CalendarDate } from 'src/entities/CalendarDate';
 import { ONE_SEC_IN_MS, SECONDS_IN_DAY } from 'src/static/utils/constants';
-import { CalendarDateDto, CalendarDto } from 'src/static/utils/dtos';
+import { CalendarDateDto, CalendarDto, DateDto } from 'src/static/utils/dtos';
 import { Day, ServiceExceptionType } from 'src/static/utils/enums';
 import { AgencyService } from '../agency/agency.service';
 import { Agency } from 'src/entities/Agency';
@@ -20,15 +20,44 @@ export class ServiceService {
   }
 
   async getTodayServiceIds(agencyId: string): Promise<string[]> {
-    return this.getServiceIds(agencyId, 0);
+    const agency = await this.agencyService.getAgencyById(agencyId);
+    return this.getServiceIds(
+      agencyId,
+      this.getCurrrentDate(agency.agency_timezone),
+    );
   }
 
   async getYesterdayServiceIds(agencyId: string): Promise<string[]> {
-    return this.getServiceIds(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
+    const agency = await this.agencyService.getAgencyById(agencyId);
+    return this.getServiceIds(
+      agencyId,
+      await this.getDateFromCurrentDateOffset(
+        this.getCurrrentDate(agency.agency_timezone),
+        -SECONDS_IN_DAY * ONE_SEC_IN_MS,
+      ),
+    );
   }
 
   async getTomorrowServiceIds(agencyId: string): Promise<string[]> {
-    return this.getServiceIds(agencyId, SECONDS_IN_DAY * ONE_SEC_IN_MS);
+    const agency = await this.agencyService.getAgencyById(agencyId);
+    return this.getServiceIds(
+      agencyId,
+      await this.getDateFromCurrentDateOffset(
+        this.getCurrrentDate(agency.agency_timezone),
+        SECONDS_IN_DAY * ONE_SEC_IN_MS,
+      ),
+    );
+  }
+
+  async getDateServiceIds(
+    agencyId: string,
+    dateDto: DateDto,
+  ): Promise<string[]> {
+    const agency = await this.agencyService.getAgencyById(agencyId);
+    return this.getServiceIds(
+      agencyId,
+      this.getDateInTimezone(dateDto, agency.agency_timezone),
+    );
   }
 
   async updateCalendar(agencyId: string, calendarDto: CalendarDto) {
@@ -45,23 +74,31 @@ export class ServiceService {
     return CalendarDate.save(calendarDate);
   }
 
-  private async getServiceIds(
-    agencyId: string,
-    timeOffset: number,
-  ): Promise<string[]> {
-    const agency = await this.agencyService.getAgencyById(agencyId);
-    const now = this.getCurrrentDateInAgencyTimezone(agency.agency_timezone);
-    const looking = new Date(now.getTime() + timeOffset);
-
-    const specialServiceId = await this.checkForException(agencyId, looking);
-    if (specialServiceId.length) return specialServiceId;
-
-    const serviceId = await this.checkForStandard(agencyId, looking);
-    return serviceId;
+  private getCurrrentDate(timeZone: string) {
+    return new Date(new Date().toLocaleString('en-US', { timeZone }));
   }
 
-  private getCurrrentDateInAgencyTimezone(timeZone: string) {
-    return new Date(new Date().toLocaleString('en-US', { timeZone }));
+  private getDateInTimezone(dateDto: DateDto, timeZone: string) {
+    return new Date(
+      new Date(dateDto.year, dateDto.month, dateDto.day).toLocaleString(
+        'en-US',
+        { timeZone },
+      ),
+    );
+  }
+
+  private async getDateFromCurrentDateOffset(
+    now: Date,
+    offset: number,
+  ): Promise<Date> {
+    return new Date(now.getTime() + offset);
+  }
+
+  private async getServiceIds(agencyId: string, date: Date): Promise<string[]> {
+    const specialServiceId = await this.checkForException(agencyId, date);
+    if (specialServiceId.length) return specialServiceId;
+    const serviceId = await this.checkForStandard(agencyId, date);
+    return serviceId;
   }
 
   private async checkForStandard(
