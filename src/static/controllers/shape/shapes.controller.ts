@@ -14,8 +14,17 @@ import { ShapeDto } from 'src/static/utils/dtos';
 export class ShapeController {
   constructor(private shapeService: ShapeService) {}
 
+  @Get('/:agencyId')
+  async getShapes(@Param('agencyId') agencyId: string) {
+    try {
+      return await this.shapeService.getShapes(agencyId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Get('/:agencyId/:shapeId')
-  async getStopFromAgencyById(
+  async getShapesById(
     @Param('agencyId') agencyId: string,
     @Param('shapeId') shapeId: string,
   ) {
