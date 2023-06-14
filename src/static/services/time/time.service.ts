@@ -3,7 +3,7 @@ import { Agency } from 'src/entities/Agency';
 import { Stop } from 'src/entities/Stop';
 import { Time } from 'src/entities/Time';
 import { Trip } from 'src/entities/Trip';
-import { TimeDto } from 'src/static/utils/dtos';
+import { DateDto, TimeDto } from 'src/static/utils/dtos';
 import { TripService } from '../trip/trip.service';
 
 @Injectable()
@@ -31,60 +31,35 @@ export class TimeService {
   }
 
   async getTodayTimesFromRoute(agencyId: string, routeId: string) {
-    const trips = await this.tripService.getTodayTripsFromRoute(
+    return this.getTimesFromTrips(
       agencyId,
-      routeId,
+      await this.tripService.getTodayTripsFromRoute(agencyId, routeId),
     );
-    return (
-      await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
-        ),
-      )
-    ).sort((a, b) => {
-      return (
-        Number(a[0].arrival_time.slice(0, 2) + a[0].arrival_time.slice(3, 5)) -
-        Number(b[0].arrival_time.slice(0, 2) + b[0].arrival_time.slice(3, 5))
-      );
-    });
   }
 
   async getYesterdayTimesFromRoute(agencyId: string, routeId: string) {
-    const trips = await this.tripService.getYesterdayTripsFromRoute(
+    return this.getTimesFromTrips(
       agencyId,
-      routeId,
+      await this.tripService.getYesterdayTripsFromRoute(agencyId, routeId),
     );
-    return (
-      await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
-        ),
-      )
-    ).sort((a, b) => {
-      return (
-        Number(a[0].arrival_time.slice(0, 2) + a[0].arrival_time.slice(3, 5)) -
-        Number(b[0].arrival_time.slice(0, 2) + b[0].arrival_time.slice(3, 5))
-      );
-    });
   }
 
   async getTomorrowTimesFromRoute(agencyId: string, routeId: string) {
-    const trips = await this.tripService.getTomorrowTripsFromRoute(
+    return this.getTimesFromTrips(
       agencyId,
-      routeId,
+      await this.tripService.getTomorrowTripsFromRoute(agencyId, routeId),
     );
-    return (
-      await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
-        ),
-      )
-    ).sort((a, b) => {
-      return (
-        Number(a[0].arrival_time.slice(0, 2) + a[0].arrival_time.slice(3, 5)) -
-        Number(b[0].arrival_time.slice(0, 2) + b[0].arrival_time.slice(3, 5))
-      );
-    });
+  }
+
+  async getDateTimesFromRoute(
+    agencyId: string,
+    routeId: string,
+    dateDto: DateDto,
+  ) {
+    return this.getTimesFromTrips(
+      agencyId,
+      await this.tripService.getDateTripsFromRoute(agencyId, routeId, dateDto),
+    );
   }
 
   async updateTime(agencyId: string, timeDto: TimeDto) {
@@ -97,5 +72,20 @@ export class TimeService {
       where: { trip_id: timeDto.trip_id, agency_id: agencyId },
     });
     return Time.save(time);
+  }
+
+  private async getTimesFromTrips(agencyId: string, trips: Trip[]) {
+    return (
+      await Promise.all(
+        trips.map(
+          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
+        ),
+      )
+    ).sort((a, b) => {
+      return (
+        Number(a[0].arrival_time.slice(0, 2) + a[0].arrival_time.slice(3, 5)) -
+        Number(b[0].arrival_time.slice(0, 2) + b[0].arrival_time.slice(3, 5))
+      );
+    });
   }
 }

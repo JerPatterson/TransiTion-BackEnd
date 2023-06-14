@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { TimeService } from 'src/static/services/time/time.service';
-import { TimeDto } from 'src/static/utils/dtos';
+import { DateDto, TimeDto } from 'src/static/utils/dtos';
 
 @Controller('times')
 export class TimeController {
@@ -62,6 +62,23 @@ export class TimeController {
       return await this.timeService.getTomorrowTimesFromRoute(
         agencyId,
         routeId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/date/:agencyId/:routeId')
+  async getRouteDateTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+    @Body() dateDto: DateDto,
+  ) {
+    try {
+      return await this.timeService.getDateTimesFromRoute(
+        agencyId,
+        routeId,
+        dateDto,
       );
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
