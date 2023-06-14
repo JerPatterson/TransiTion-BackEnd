@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { TripService } from 'src/static/services/trip/trip.service';
-import { TripDto } from 'src/static/utils/dtos';
+import { DateDto, TripDto } from 'src/static/utils/dtos';
 
 @Controller('trips')
 export class TripController {
@@ -89,6 +89,23 @@ export class TripController {
     }
   }
 
+  @Get('/route/date/:agencyId/:routeId')
+  async getRouteDateTripsById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+    @Body() dateDto: DateDto,
+  ) {
+    try {
+      return await this.tripService.getDateTripsFromRoute(
+        agencyId,
+        routeId,
+        dateDto,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Get('/stop/:agencyId/:stopId')
   async getStopTripsById(
     @Param('agencyId') agencyId: string,
@@ -137,6 +154,23 @@ export class TripController {
       return await this.tripService.getTomorrowTripIdsFromStop(
         agencyId,
         stopId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/date/:agencyId/:stopId')
+  async getStopDateTripsById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+    @Body() dateDto: DateDto,
+  ) {
+    try {
+      return await this.tripService.getDateTripsFromStop(
+        agencyId,
+        stopId,
+        dateDto,
       );
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);

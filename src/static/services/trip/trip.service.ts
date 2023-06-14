@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Agency } from 'src/entities/Agency';
 import { Route } from 'src/entities/Route';
 import { Trip } from 'src/entities/Trip';
-import { TripDto } from 'src/static/utils/dtos';
+import { DateDto, TripDto } from 'src/static/utils/dtos';
 import { ServiceService } from 'src/static/services/service/service.service';
 import { In } from 'typeorm';
 import { Time } from 'src/entities/Time';
@@ -81,6 +81,18 @@ export class TripService {
     );
   }
 
+  async getDateTripsFromRoute(
+    agencyId: string,
+    routeId: string,
+    dateDto: DateDto,
+  ) {
+    return this.getRouteTripsFromServiceIds(
+      agencyId,
+      routeId,
+      await this.serviceService.getDateServiceIds(agencyId, dateDto),
+    );
+  }
+
   async getTripIdsFromStop(agencyId: string, stopId: string) {
     return (
       await Time.find({
@@ -121,6 +133,18 @@ export class TripService {
       agencyId,
       stopId,
       await this.serviceService.getTomorrowServiceIds(agencyId),
+    );
+  }
+
+  async getDateTripsFromStop(
+    agencyId: string,
+    stopId: string,
+    dateDto: DateDto,
+  ) {
+    return this.getStopTripsFromServiceIds(
+      agencyId,
+      stopId,
+      await this.serviceService.getDateServiceIds(agencyId, dateDto),
     );
   }
 
