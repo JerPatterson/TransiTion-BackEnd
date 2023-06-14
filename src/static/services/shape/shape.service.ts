@@ -9,6 +9,7 @@ export class ShapeService {
   async getShapesById(agencyId: string, shapeId: string) {
     return Shape.find({
       where: { shape_id: shapeId, agency: { agency_id: agencyId } },
+      order: { shape_pt_sequence: 'ASC' },
     });
   }
 
