@@ -31,14 +31,14 @@ export class TimeService {
   }
 
   async getTodayTimesFromRoute(agencyId: string, routeId: string) {
-    const trips = await this.tripService.getTodayTripsFromRoute(
+    const tripsIds = await this.tripService.getTodayTripIdsFromRoute(
       agencyId,
       routeId,
     );
     return (
       await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
+        tripsIds.map(
+          async (tripId) => await this.getTimesByTripId(agencyId, tripId),
         ),
       )
     ).sort((a, b) => {
@@ -50,14 +50,14 @@ export class TimeService {
   }
 
   async getYesterdayTimesFromRoute(agencyId: string, routeId: string) {
-    const trips = await this.tripService.getYesterdayTripsFromRoute(
+    const tripIds = await this.tripService.getYesterdayTripIdsFromRoute(
       agencyId,
       routeId,
     );
     return (
       await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
+        tripIds.map(
+          async (tripId) => await this.getTimesByTripId(agencyId, tripId),
         ),
       )
     ).sort((a, b) => {
@@ -69,14 +69,14 @@ export class TimeService {
   }
 
   async getTomorrowTimesFromRoute(agencyId: string, routeId: string) {
-    const trips = await this.tripService.getTomorrowTripsFromRoute(
+    const tripsIds = await this.tripService.getTomorrowTripIdsFromRoute(
       agencyId,
       routeId,
     );
     return (
       await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
+        tripsIds.map(
+          async (tripId) => await this.getTimesByTripId(agencyId, tripId),
         ),
       )
     ).sort((a, b) => {

@@ -5,6 +5,8 @@ import { Trip } from 'src/entities/Trip';
 import { TripDto } from 'src/static/utils/dtos';
 import { ServiceService } from 'src/static/services/service/service.service';
 import { In } from 'typeorm';
+import { Stop } from 'src/entities/Stop';
+import { Time } from 'src/entities/Time';
 
 @Injectable()
 export class TripService {
@@ -27,48 +29,110 @@ export class TripService {
     });
   }
 
-  async getTripsFromRoute(agencyId: string, routeId: string) {
+  async getTripIdsFromRoute(agencyId: string, routeId: string) {
     return (
       await Route.findOne({
         relations: { trips: true },
         where: { route_id: routeId, agency_id: agencyId },
       })
-    ).trips;
+    ).trips.map((trip) => trip.trip_id);
   }
 
-  async getTodayTripsFromRoute(agencyId: string, routeId: string) {
+  async getTodayTripIdsFromRoute(agencyId: string, routeId: string) {
     const serviceId = await this.serviceService.getTodayServiceIds(agencyId);
-    return await Trip.find({
-      where: {
-        route_id: routeId,
-        agency_id: agencyId,
-        service_id: In(serviceId),
-      },
-    });
+    return (
+      await Trip.find({
+        where: {
+          route_id: routeId,
+          agency_id: agencyId,
+          service_id: In(serviceId),
+        },
+        select: { trip_id: true },
+      })
+    ).map((trip) => trip.trip_id);
   }
 
-  async getYesterdayTripsFromRoute(agencyId: string, routeId: string) {
+  async getYesterdayTripIdsFromRoute(agencyId: string, routeId: string) {
     const serviceId = await this.serviceService.getYesterdayServiceIds(
       agencyId,
     );
-    return await Trip.find({
-      where: {
-        route_id: routeId,
-        agency_id: agencyId,
-        service_id: In(serviceId),
-      },
-    });
+    return (
+      await Trip.find({
+        where: {
+          route_id: routeId,
+          agency_id: agencyId,
+          service_id: In(serviceId),
+        },
+        select: { trip_id: true },
+      })
+    ).map((trip) => trip.trip_id);
   }
 
-  async getTomorrowTripsFromRoute(agencyId: string, routeId: string) {
+  async getTomorrowTripIdsFromRoute(agencyId: string, routeId: string) {
     const serviceId = await this.serviceService.getTomorrowServiceIds(agencyId);
-    return await Trip.find({
-      where: {
-        route_id: routeId,
-        agency_id: agencyId,
-        service_id: In(serviceId),
-      },
-    });
+    return (
+      await Trip.find({
+        where: {
+          route_id: routeId,
+          agency_id: agencyId,
+          service_id: In(serviceId),
+        },
+        select: { trip_id: true },
+      })
+    ).map((trip) => trip.trip_id);
+  }
+
+  async getTripIdsFromStop(agencyId: string, stopId: string) {
+    return (
+      await Stop.findOne({
+        relations: { times: true },
+        where: { stop_id: stopId, agency_id: agencyId },
+      })
+    ).times.map((time) => time.trip_id);
+  }
+
+  async getTodayTripIdsFromStop(agencyId: string, stopId: string) {
+    const serviceId = await this.serviceService.getTodayServiceIds(agencyId);
+    return (
+      await Time.find({
+        where: {
+          agency_id: agencyId,
+          stop_id: stopId,
+          trip: { service_id: In(serviceId) },
+        },
+        select: { trip_id: true },
+      })
+    ).map((time) => time.trip_id);
+  }
+
+  async getYesterdayTripIdsFromStop(agencyId: string, stopId: string) {
+    const serviceId = await this.serviceService.getYesterdayServiceIds(
+      agencyId,
+    );
+    return (
+      await Time.find({
+        where: {
+          agency_id: agencyId,
+          stop_id: stopId,
+          trip: { service_id: In(serviceId) },
+        },
+        select: { trip_id: true },
+      })
+    ).map((time) => time.trip_id);
+  }
+
+  async getTomorrowTripIdsFromStop(agencyId: string, stopId: string) {
+    const serviceId = await this.serviceService.getTomorrowServiceIds(agencyId);
+    return (
+      await Time.find({
+        where: {
+          agency_id: agencyId,
+          stop_id: stopId,
+          trip: { service_id: In(serviceId) },
+        },
+        select: { trip_id: true },
+      })
+    ).map((time) => time.trip_id);
   }
 
   async updateTrip(agencyId: string, tripDto: TripDto) {
