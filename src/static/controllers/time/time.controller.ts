@@ -20,9 +20,48 @@ export class TimeController {
     @Param('tripId') tripId: string,
   ) {
     try {
-      return await this.timeService.getTimesFromAgencyByTripId(
+      return await this.timeService.getTimesByTripId(agencyId, tripId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/today/:agencyId/:routeId')
+  async getRouteTodayTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+  ) {
+    try {
+      return await this.timeService.getTodayTimesFromRoute(agencyId, routeId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/yesterday/:agencyId/:routeId')
+  async getRouteYesterdayTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+  ) {
+    try {
+      return await this.timeService.getYesterdayTimesFromRoute(
         agencyId,
-        tripId,
+        routeId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/tomorrow/:agencyId/:routeId')
+  async getRouteTomorrowTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+  ) {
+    try {
+      return await this.timeService.getTomorrowTimesFromRoute(
+        agencyId,
+        routeId,
       );
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);

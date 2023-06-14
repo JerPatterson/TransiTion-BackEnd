@@ -4,13 +4,61 @@ import { Stop } from 'src/entities/Stop';
 import { Time } from 'src/entities/Time';
 import { Trip } from 'src/entities/Trip';
 import { TimeDto } from 'src/static/utils/dtos';
+import { ServiceService } from 'src/static/services/service/service.service';
+import { In } from 'typeorm';
 
 @Injectable()
 export class TimeService {
-  async getTimesFromAgencyByTripId(agencyId: string, tripId: string) {
+  constructor(private serviceService: ServiceService) {}
+
+  async getTimesByTripId(agencyId: string, tripId: string) {
     return Time.find({
       where: { trip_id: tripId, agency_id: agencyId },
     });
+  }
+
+  async getTodayTimesFromRoute(agencyId: string, routeId: string) {
+    const serviceId = await this.serviceService.getTodayServiceIds(agencyId);
+    return (
+      await Trip.find({
+        relations: { times: true },
+        where: {
+          route_id: routeId,
+          agency_id: agencyId,
+          service_id: In(serviceId),
+        },
+      })
+    ).map((trip) => trip.times);
+  }
+
+  async getYesterdayTimesFromRoute(agencyId: string, routeId: string) {
+    const serviceId = await this.serviceService.getYesterdayServiceIds(
+      agencyId,
+    );
+    return (
+      await Trip.find({
+        relations: { times: true },
+        where: {
+          route_id: routeId,
+          agency_id: agencyId,
+          service_id: In(serviceId),
+        },
+      })
+    ).map((trip) => trip.times);
+  }
+
+  async getTomorrowTimesFromRoute(agencyId: string, routeId: string) {
+    const serviceId = await this.serviceService.getTomorrowServiceIds(agencyId);
+    return (
+      await Trip.find({
+        relations: { times: true },
+        where: {
+          route_id: routeId,
+          agency_id: agencyId,
+          service_id: In(serviceId),
+        },
+      })
+    ).map((trip) => trip.times);
   }
 
   async updateTime(agencyId: string, timeDto: TimeDto) {
