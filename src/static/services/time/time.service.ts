@@ -38,21 +38,24 @@ export class TimeService {
   async getTodayTimesFromRoute(agencyId: string, routeId: string) {
     return this.getTimesFromRoute(
       agencyId,
-      await this.tripService.getTodayTripsFromRoute(agencyId, routeId),
+      routeId,
+      await this.serviceService.getTodayServiceIds(agencyId),
     );
   }
 
   async getYesterdayTimesFromRoute(agencyId: string, routeId: string) {
     return this.getTimesFromRoute(
       agencyId,
-      await this.tripService.getYesterdayTripsFromRoute(agencyId, routeId),
+      routeId,
+      await this.serviceService.getYesterdayServiceIds(agencyId),
     );
   }
 
   async getTomorrowTimesFromRoute(agencyId: string, routeId: string) {
     return this.getTimesFromRoute(
       agencyId,
-      await this.tripService.getTomorrowTripsFromRoute(agencyId, routeId),
+      routeId,
+      await this.serviceService.getTomorrowServiceIds(agencyId),
     );
   }
 
@@ -63,7 +66,8 @@ export class TimeService {
   ) {
     return this.getTimesFromRoute(
       agencyId,
-      await this.tripService.getDateTripsFromRoute(agencyId, routeId, dateDto),
+      routeId,
+      await this.serviceService.getDateServiceIds(agencyId, dateDto),
     );
   }
 
@@ -115,18 +119,37 @@ export class TimeService {
     return Time.save(time);
   }
 
-  private async getTimesFromRoute(agencyId: string, trips: Trip[]) {
-    return (
-      await Promise.all(
-        trips.map(
-          async (trip) => await this.getTimesByTripId(agencyId, trip.trip_id),
-        ),
-      )
-    ).sort((a, b) => {
-      return (
-        Number(a[0].arrival_time.slice(0, 2) + a[0].arrival_time.slice(3, 5)) -
-        Number(b[0].arrival_time.slice(0, 2) + b[0].arrival_time.slice(3, 5))
-      );
+  private async getTimesFromRoute(
+    agencyId: string,
+    routeId: string,
+    serviceIds: string[],
+  ) {
+    return Time.find({
+      relations: { stop: true },
+      where: {
+        agency_id: agencyId,
+        trip: {
+          route_id: routeId,
+          service_id: In(serviceIds),
+        },
+      },
+      select: {
+        arrival_time: true,
+        departure_time: true,
+        pickup_type: true,
+        drop_off_type: true,
+        stop_sequence: true,
+        stop: {
+          stop_id: true,
+          stop_name: true,
+          wheelchair_boarding: true,
+        },
+      },
+      order: {
+        stop_sequence: 'ASC',
+        arrival_time: 'ASC',
+        departure_time: 'ASC',
+      },
     });
   }
 
