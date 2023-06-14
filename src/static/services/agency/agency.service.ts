@@ -9,7 +9,19 @@ export class AgencyService {
   }
 
   async getAgencyById(id: string) {
-    return Agency.findOne({ where: { agency_id: id } });
+    return Agency.findOne({
+      where: { agency_id: id },
+      select: {
+        agency_id: true,
+        agency_name: true,
+        agency_url: true,
+        agency_timezone: true,
+        agency_lang: true,
+        agency_fare_url: true,
+        agency_phone: true,
+        agency_email: true,
+      },
+    });
   }
 
   async getFullAgencyInfoById(id: string) {

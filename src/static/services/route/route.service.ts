@@ -27,6 +27,20 @@ export class RouteService {
   async getRouteById(agencyId: string, routeId: string) {
     return Route.findOne({
       where: { route_id: routeId, agency_id: agencyId },
+      select: {
+        route_id: true,
+        route_long_name: true,
+        route_short_name: true,
+        route_desc: true,
+        route_type: true,
+        route_url: true,
+        route_color: true,
+        route_text_color: true,
+        route_sort_order: true,
+        continuous_pickup: true,
+        continuous_drop_off: true,
+        wheelchair_boarding: true,
+      },
     });
   }
 
