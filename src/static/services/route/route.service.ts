@@ -6,7 +6,22 @@ import { RouteDto } from 'src/static/utils/dtos';
 @Injectable()
 export class RouteService {
   async getRoutes(agencyId: string) {
-    return Route.find({ where: { agency_id: agencyId } });
+    return Route.find({
+      where: { agency_id: agencyId },
+      select: {
+        route_id: true,
+        route_long_name: true,
+        route_short_name: true,
+        route_type: true,
+        route_color: true,
+        route_text_color: true,
+        wheelchair_boarding: true,
+      },
+      order: {
+        route_sort_order: 'ASC',
+        route_short_name: 'ASC',
+      },
+    });
   }
 
   async getRouteById(agencyId: string, routeId: string) {
