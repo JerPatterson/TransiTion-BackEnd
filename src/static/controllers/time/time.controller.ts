@@ -85,6 +85,59 @@ export class TimeController {
     }
   }
 
+  @Get('/stop/today/:agencyId/:stopId')
+  async getStopTodayTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.timeService.getTodayTimesFromStop(agencyId, stopId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/yesterday/:agencyId/:stopId')
+  async getStopYesterdayTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.timeService.getYesterdayTimesFromStop(agencyId, stopId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/tomorrow/:agencyId/:stopId')
+  async getStopTomorrowTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.timeService.getTomorrowTimesFromStop(agencyId, stopId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/date/:agencyId/:stopId')
+  async getStopDateTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+    @Body() dateDto: DateDto,
+  ) {
+    try {
+      return await this.timeService.getDateTimesFromStop(
+        agencyId,
+        stopId,
+        dateDto,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Put('/:agencyId')
   async updateStop(
     @Param('agencyId') agencyId: string,

@@ -51,6 +51,7 @@ export class TripService {
         route_id: true,
         trip_headsign: true,
         trip_short_name: true,
+        shape_id: true,
         wheelchair_accessible: true,
         bikes_allowed: true,
       },
@@ -93,7 +94,7 @@ export class TripService {
     );
   }
 
-  async getTripIdsFromStop(agencyId: string, stopId: string) {
+  async getTripsFromStop(agencyId: string, stopId: string) {
     return (
       await Time.find({
         relations: { trip: true },
@@ -104,6 +105,7 @@ export class TripService {
             route_id: true,
             trip_headsign: true,
             trip_short_name: true,
+            shape_id: true,
             wheelchair_accessible: true,
             bikes_allowed: true,
           },
@@ -112,7 +114,7 @@ export class TripService {
     ).map((time) => time.trip);
   }
 
-  async getTodayTripIdsFromStop(agencyId: string, stopId: string) {
+  async getTodayTripsFromStop(agencyId: string, stopId: string) {
     return this.getStopTripsFromServiceIds(
       agencyId,
       stopId,
@@ -120,7 +122,7 @@ export class TripService {
     );
   }
 
-  async getYesterdayTripIdsFromStop(agencyId: string, stopId: string) {
+  async getYesterdayTripsFromStop(agencyId: string, stopId: string) {
     return this.getStopTripsFromServiceIds(
       agencyId,
       stopId,
@@ -128,7 +130,7 @@ export class TripService {
     );
   }
 
-  async getTomorrowTripIdsFromStop(agencyId: string, stopId: string) {
+  async getTomorrowTripsFromStop(agencyId: string, stopId: string) {
     return this.getStopTripsFromServiceIds(
       agencyId,
       stopId,
@@ -173,6 +175,7 @@ export class TripService {
         route_id: true,
         trip_headsign: true,
         trip_short_name: true,
+        shape_id: true,
         wheelchair_accessible: true,
         bikes_allowed: true,
       },
@@ -198,6 +201,7 @@ export class TripService {
             route_id: true,
             trip_headsign: true,
             trip_short_name: true,
+            shape_id: true,
             wheelchair_accessible: true,
             bikes_allowed: true,
           },
