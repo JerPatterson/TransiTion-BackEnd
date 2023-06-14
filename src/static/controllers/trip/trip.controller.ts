@@ -41,7 +41,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getTripsFromRoute(agencyId, routeId);
+      return await this.tripService.getTripIdsFromRoute(agencyId, routeId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
@@ -53,7 +53,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getTodayTripsFromRoute(agencyId, routeId);
+      return await this.tripService.getTodayTripIdsFromRoute(agencyId, routeId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
@@ -65,7 +65,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getYesterdayTripsFromRoute(
+      return await this.tripService.getYesterdayTripIdsFromRoute(
         agencyId,
         routeId,
       );
@@ -80,9 +80,63 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getTomorrowTripsFromRoute(
+      return await this.tripService.getTomorrowTripIdsFromRoute(
         agencyId,
         routeId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/:agencyId/:stopId')
+  async getStopTripsById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.tripService.getTripIdsFromStop(agencyId, stopId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/today/:agencyId/:stopId')
+  async getStopTodayTripsById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.tripService.getTodayTripIdsFromStop(agencyId, stopId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/yesterday/:agencyId/:stopId')
+  async getStopYesterdayTripsById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.tripService.getYesterdayTripIdsFromStop(
+        agencyId,
+        stopId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/stop/tomorrow/:agencyId/:stopId')
+  async getStopTomorrowTripsById(
+    @Param('agencyId') agencyId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.tripService.getTomorrowTripIdsFromStop(
+        agencyId,
+        stopId,
       );
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
