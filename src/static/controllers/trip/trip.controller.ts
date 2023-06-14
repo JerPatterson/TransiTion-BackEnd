@@ -41,7 +41,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getTripIdsFromRoute(agencyId, routeId);
+      return await this.tripService.getTripsFromRoute(agencyId, routeId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
@@ -53,7 +53,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getTodayTripIdsFromRoute(agencyId, routeId);
+      return await this.tripService.getTodayTripsFromRoute(agencyId, routeId);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
@@ -65,7 +65,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getYesterdayTripIdsFromRoute(
+      return await this.tripService.getYesterdayTripsFromRoute(
         agencyId,
         routeId,
       );
@@ -80,7 +80,7 @@ export class TripController {
     @Param('routeId') routeId: string,
   ) {
     try {
-      return await this.tripService.getTomorrowTripIdsFromRoute(
+      return await this.tripService.getTomorrowTripsFromRoute(
         agencyId,
         routeId,
       );
