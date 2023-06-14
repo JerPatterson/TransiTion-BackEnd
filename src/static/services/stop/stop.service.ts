@@ -7,7 +7,21 @@ import { Between } from 'typeorm';
 @Injectable()
 export class StopService {
   async getStops(agencyId: string) {
-    return Stop.find({ where: { agency_id: agencyId } });
+    return Stop.find({
+      where: { agency_id: agencyId },
+      select: {
+        stop_id: true,
+        stop_name: true,
+        stop_lat: true,
+        stop_lon: true,
+        location_type: true,
+        parent_station: true,
+        wheelchair_boarding: true,
+        stop_shelter: true,
+        stop_display: true,
+      },
+      order: { stop_name: 'ASC' },
+    });
   }
 
   async getStopsFromArea(area: AreaDto) {
@@ -28,6 +42,25 @@ export class StopService {
   async getStopById(agencyId: string, stopId: string) {
     return Stop.findOne({
       where: { stop_id: stopId, agency_id: agencyId },
+      select: {
+        agency_id: true,
+        stop_id: true,
+        stop_code: true,
+        stop_name: true,
+        stop_desc: true,
+        stop_lat: true,
+        stop_lon: true,
+        zone_id: true,
+        stop_url: true,
+        location_type: true,
+        parent_station: true,
+        stop_timezone: true,
+        wheelchair_boarding: true,
+        level_id: true,
+        platform_code: true,
+        stop_shelter: true,
+        stop_display: true,
+      },
     });
   }
 
