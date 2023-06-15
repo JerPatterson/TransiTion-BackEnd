@@ -12,6 +12,7 @@ export class StopService {
       where: { agency_id: agencyId },
       select: {
         stop_id: true,
+        stop_code: true,
         stop_name: true,
         stop_lat: true,
         stop_lon: true,
@@ -92,9 +93,45 @@ export class StopService {
               stop_display: true,
             },
           },
+          order: {
+            stop_sequence: 'ASC',
+          },
         })
       ).map((time) => time.stop),
     );
+  }
+
+  async getStopsByTripId(agencyId: string, tripId: string) {
+    return (
+      await Time.find({
+        relations: { stop: true },
+        where: { trip_id: tripId, agency_id: agencyId },
+        select: {
+          stop: {
+            agency_id: true,
+            stop_id: true,
+            stop_code: true,
+            stop_name: true,
+            stop_desc: true,
+            stop_lat: true,
+            stop_lon: true,
+            zone_id: true,
+            stop_url: true,
+            location_type: true,
+            parent_station: true,
+            stop_timezone: true,
+            wheelchair_boarding: true,
+            level_id: true,
+            platform_code: true,
+            stop_shelter: true,
+            stop_display: true,
+          },
+        },
+        order: {
+          stop_sequence: 'ASC',
+        },
+      })
+    ).map((time) => time.stop);
   }
 
   async updateStop(agencyId: string, stopDto: StopDto) {

@@ -138,6 +138,76 @@ export class TimeController {
     }
   }
 
+  @Get('/route/stop/today/:agencyId/:routeId/:stopId')
+  async getRouteStopTodayTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.timeService.getTodayTimesFromRouteStop(
+        agencyId,
+        routeId,
+        stopId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/stop/yesterday/:agencyId/:routeId/:stopId')
+  async getRouteStopYesterdayTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.timeService.getYesterdayTimesFromRouteStop(
+        agencyId,
+        routeId,
+        stopId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/stop/tomorrow/:agencyId/:routeId/:stopId')
+  async getRouteStopTomorrowTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+    @Param('stopId') stopId: string,
+  ) {
+    try {
+      return await this.timeService.getTomorrowTimesFromRouteStop(
+        agencyId,
+        routeId,
+        stopId,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/route/stop/date/:agencyId/:routeId/:stopId')
+  async getRouteStopDateTimesById(
+    @Param('agencyId') agencyId: string,
+    @Param('routeId') routeId: string,
+    @Param('stopId') stopId: string,
+    @Body() dateDto: DateDto,
+  ) {
+    try {
+      return await this.timeService.getDateTimesFromRouteStop(
+        agencyId,
+        routeId,
+        stopId,
+        dateDto,
+      );
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Put('/:agencyId')
   async updateStop(
     @Param('agencyId') agencyId: string,

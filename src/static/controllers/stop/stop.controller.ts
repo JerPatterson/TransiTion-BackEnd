@@ -58,6 +58,18 @@ export class StopsController {
     }
   }
 
+  @Get('/trip/:agencyId/:tripId')
+  async getStopByTripId(
+    @Param('agencyId') agencyId: string,
+    @Param('tripId') tripId: string,
+  ) {
+    try {
+      return await this.stopService.getStopsByTripId(agencyId, tripId);
+    } catch {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Put('/:agencyId')
   async updateStop(
     @Param('agencyId') agencyId: string,

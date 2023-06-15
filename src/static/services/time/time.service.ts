@@ -4,16 +4,12 @@ import { Stop } from 'src/entities/Stop';
 import { Time } from 'src/entities/Time';
 import { Trip } from 'src/entities/Trip';
 import { DateDto, TimeDto } from 'src/static/utils/dtos';
-import { TripService } from '../trip/trip.service';
 import { In } from 'typeorm';
 import { ServiceService } from '../service/service.service';
 
 @Injectable()
 export class TimeService {
-  constructor(
-    private tripService: TripService,
-    private serviceService: ServiceService,
-  ) {}
+  constructor(private serviceService: ServiceService) {}
 
   async getTimesByTripId(agencyId: string, tripId: string) {
     return Time.find({
@@ -107,6 +103,59 @@ export class TimeService {
     );
   }
 
+  async getTodayTimesFromRouteStop(
+    agencyId: string,
+    routeId: string,
+    stopId: string,
+  ) {
+    return this.getTimesFromRouteStop(
+      agencyId,
+      routeId,
+      stopId,
+      await this.serviceService.getTodayServiceIds(agencyId),
+    );
+  }
+
+  async getYesterdayTimesFromRouteStop(
+    agencyId: string,
+    routeId: string,
+    stopId: string,
+  ) {
+    return this.getTimesFromRouteStop(
+      agencyId,
+      routeId,
+      stopId,
+      await this.serviceService.getYesterdayServiceIds(agencyId),
+    );
+  }
+
+  async getTomorrowTimesFromRouteStop(
+    agencyId: string,
+    routeId: string,
+    stopId: string,
+  ) {
+    return this.getTimesFromRouteStop(
+      agencyId,
+      routeId,
+      stopId,
+      await this.serviceService.getTomorrowServiceIds(agencyId),
+    );
+  }
+
+  async getDateTimesFromRouteStop(
+    agencyId: string,
+    routeId: string,
+    stopId: string,
+    dateDto: DateDto,
+  ) {
+    return this.getTimesFromRouteStop(
+      agencyId,
+      routeId,
+      stopId,
+      await this.serviceService.getDateServiceIds(agencyId, dateDto),
+    );
+  }
+
   async updateTime(agencyId: string, timeDto: TimeDto) {
     const time = Time.create({ ...timeDto });
     time.agency = await Agency.findOne({ where: { agency_id: agencyId } });
@@ -134,6 +183,7 @@ export class TimeService {
         },
       },
       select: {
+        trip_id: true,
         arrival_time: true,
         departure_time: true,
         pickup_type: true,
@@ -166,6 +216,7 @@ export class TimeService {
         trip: { service_id: In(serviceIds) },
       },
       select: {
+        trip_id: true,
         arrival_time: true,
         departure_time: true,
         pickup_type: true,
@@ -181,6 +232,45 @@ export class TimeService {
         },
       },
       order: {
+        arrival_time: 'ASC',
+        departure_time: 'ASC',
+      },
+    });
+  }
+
+  private async getTimesFromRouteStop(
+    agencyId: string,
+    routeId: string,
+    stopId: string,
+    serviceIds: string[],
+  ) {
+    return Time.find({
+      relations: { trip: true },
+      where: {
+        agency_id: agencyId,
+        stop: { stop_id: stopId },
+        trip: {
+          route_id: routeId,
+          service_id: In(serviceIds),
+        },
+      },
+      select: {
+        trip_id: true,
+        arrival_time: true,
+        departure_time: true,
+        pickup_type: true,
+        drop_off_type: true,
+        trip: {
+          route_id: true,
+          trip_headsign: true,
+          trip_short_name: true,
+          shape_id: true,
+          wheelchair_accessible: true,
+          bikes_allowed: true,
+        },
+      },
+      order: {
+        stop_sequence: 'ASC',
         arrival_time: 'ASC',
         departure_time: 'ASC',
       },

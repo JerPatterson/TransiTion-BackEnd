@@ -24,7 +24,7 @@ export class TripService {
 
   async getTripById(agencyId: string, tripId: string) {
     return Trip.findOne({
-      where: { trip_id: tripId, agency: { agency_id: agencyId } },
+      where: { trip_id: tripId, agency_id: agencyId },
       select: {
         route_id: true,
         service_id: true,
@@ -42,10 +42,7 @@ export class TripService {
 
   async getTripsFromRoute(agencyId: string, routeId: string) {
     return await Trip.find({
-      where: {
-        route_id: routeId,
-        agency_id: agencyId,
-      },
+      where: { route_id: routeId, agency_id: agencyId },
       select: {
         trip_id: true,
         route_id: true,
