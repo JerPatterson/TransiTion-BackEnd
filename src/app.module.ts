@@ -34,6 +34,7 @@ dotenv.config();
         Calendar,
         CalendarDate,
       ],
+      synchronize: true,
     }),
     StaticModule,
   ],

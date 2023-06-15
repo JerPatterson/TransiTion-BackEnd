@@ -22,10 +22,10 @@ export class Shape extends BaseEntity {
   @Column({ type: 'varchar', length: 30 })
   shape_id: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'double' })
   shape_pt_lat: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'double' })
   shape_pt_lon: number;
 
   @Column({ type: 'int' })

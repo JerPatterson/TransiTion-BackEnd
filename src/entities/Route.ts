@@ -62,6 +62,9 @@ export class Route extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: WheelchairBoardingType })
   wheelchair_boarding: number;
 
+  @Column({ nullable: true, type: 'boolean' })
+  night_only: boolean;
+
   @ManyToOne(() => Agency, (agency) => agency.routes)
   @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
   agency: Agency;
