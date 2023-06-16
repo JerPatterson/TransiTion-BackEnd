@@ -11,6 +11,11 @@ import { Route } from './entities/Route';
 import { Shape } from './entities/Shape';
 import { CalendarDate } from './entities/CalendarDate';
 import { Calendar } from './entities/Calendar';
+import { TripUpdateController } from './realtime/controllers/trip-update/trip-update.controller';
+import { TripUpdateService } from './realtime/services/trip-update/trip-update.service';
+import { VehiclePositionService } from './realtime/services/vehicle-position/vehicle-position.service';
+import { VehiclePositionController } from './realtime/controllers/vehicle-position/vehicle-position.controller';
+import { RealtimeModule } from './realtime/realtime.module';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -37,8 +42,9 @@ dotenv.config();
       synchronize: true,
     }),
     StaticModule,
+    RealtimeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TripUpdateController, VehiclePositionController],
+  providers: [AppService, TripUpdateService, VehiclePositionService],
 })
 export class AppModule {}
