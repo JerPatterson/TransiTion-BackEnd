@@ -16,6 +16,7 @@ export class RouteService {
         route_color: true,
         route_text_color: true,
         wheelchair_boarding: true,
+        night_only: true,
       },
       order: {
         route_sort_order: 'ASC',
@@ -40,6 +41,7 @@ export class RouteService {
         continuous_pickup: true,
         continuous_drop_off: true,
         wheelchair_boarding: true,
+        night_only: true,
       },
     });
   }

@@ -189,7 +189,7 @@ export class TripService {
         relations: { trip: true },
         where: {
           agency_id: agencyId,
-          stop: { stop_id: stopId },
+          stop_id: stopId,
           trip: { service_id: In(serviceIds) },
         },
         select: {

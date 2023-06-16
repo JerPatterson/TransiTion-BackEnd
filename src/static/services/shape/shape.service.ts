@@ -8,7 +8,7 @@ import { ShapeDto } from 'src/static/utils/dtos';
 export class ShapeService {
   async getShapes(agencyId: string) {
     return Shape.find({
-      where: { agency: { agency_id: agencyId } },
+      where: { agency_id: agencyId },
       order: { shape_id: 'ASC', shape_pt_sequence: 'ASC' },
       select: {
         shape_pt_lat: true,
@@ -20,7 +20,7 @@ export class ShapeService {
 
   async getShapesById(agencyId: string, shapeId: string) {
     return Shape.find({
-      where: { shape_id: shapeId, agency: { agency_id: agencyId } },
+      where: { shape_id: shapeId, agency_id: agencyId },
       order: { shape_pt_sequence: 'ASC' },
       select: {
         shape_pt_lat: true,

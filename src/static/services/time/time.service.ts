@@ -222,7 +222,6 @@ export class TimeService {
         pickup_type: true,
         drop_off_type: true,
         trip: {
-          trip_id: true,
           route_id: true,
           trip_headsign: true,
           trip_short_name: true,
@@ -248,7 +247,7 @@ export class TimeService {
       relations: { trip: true },
       where: {
         agency_id: agencyId,
-        stop: { stop_id: stopId },
+        stop_id: stopId,
         trip: {
           route_id: routeId,
           service_id: In(serviceIds),
