@@ -8,13 +8,13 @@ import {
 
 export class FeedMessage {
   header: FeedHeader;
-  entity: FeedEntity;
+  entity: FeedEntity[];
 }
 
 export class FeedHeader {
-  gtfs_realtime_version: string;
-  incrementality: Incrementality;
-  timestamp: number;
+  gtfs_realtime_version?: string;
+  incrementality?: Incrementality;
+  timestamp?: number;
 }
 
 export class FeedEntity {
