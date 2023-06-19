@@ -47,6 +47,7 @@ export class GtfsManager extends FeedManager {
 
   private async getVehiclePositionsFeedData(): Promise<void> {
     try {
+      console.log(this.feed.agencyId + ' refresh ...');
       const response = await fetch(this.feed.vehiclePositionUrl, {
         headers: this.feed.headers,
       });
@@ -63,6 +64,7 @@ export class GtfsManager extends FeedManager {
       );
 
       feed.entity.forEach((entity) => {
+        if (!entity.vehicle) return;
         this.uniqueVehicleIds.add(entity.vehicle.vehicle.id);
         this.vehiclePositionById.set(entity.vehicle.vehicle.id, entity.vehicle);
       });
