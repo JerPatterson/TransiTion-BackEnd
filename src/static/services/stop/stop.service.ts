@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Stop } from 'src/entities/Stop';
 import { Time } from 'src/entities/Time';
+import { Trip } from 'src/entities/Trip';
 import { AreaDto, StopDto } from 'src/static/utils/dtos';
 import { Between } from 'typeorm';
 
@@ -66,62 +67,82 @@ export class StopService {
   }
 
   async getStopsByRouteId(agencyId: string, routeId: string) {
-    const res = Stop.createQueryBuilder('stop')
-      .leftJoinAndSelect(Time, 'time', 'stop.stop_id = time.stop_id')
-      .where('time.agency_id = :agencyId AND time.route_id = :routeId', {
+    return Stop.createQueryBuilder('stops')
+      .innerJoinAndMapMany(
+        'stops.times',
+        Time,
+        'times',
+        'times.stop_id = stops.stop_id',
+      )
+      .innerJoinAndMapMany(
+        'stop.trips',
+        Trip,
+        'trips',
+        'trips.trip_id = times.trip_id',
+      )
+      .where('trips.agency_id = :agencyId AND trips.route_id = :routeId', {
         agencyId,
         routeId,
       })
       .select([
-        'stop.agency_id',
-        'stop.stop_id',
-        'stop.stop_code',
-        'stop.stop_name',
-        'stop.stop_desc',
-        'stop.stop_lat',
-        'stop.stop_lon',
-        'stop.zone_id',
-        'stop.stop_url',
-        'stop.location_type',
-        'stop.parent_station',
-        'stop.stop_timezone',
-        'stop.wheelchair_boarding',
-        'stop.level_id',
-        'stop.platform_code',
-        'stop.stop_shelter',
-        'stop.stop_display',
+        'stops.agency_id',
+        'stops.stop_id',
+        'stops.stop_code',
+        'stops.stop_name',
+        'stops.stop_desc',
+        'stops.stop_lat',
+        'stops.stop_lon',
+        'stops.zone_id',
+        'stops.stop_url',
+        'stops.location_type',
+        'stops.parent_station',
+        'stops.stop_timezone',
+        'stops.wheelchair_boarding',
+        'stops.level_id',
+        'stops.platform_code',
+        'stops.stop_shelter',
+        'stops.stop_display',
       ])
+      .distinct(true)
       .execute();
-
-    console.log(res);
-    return res;
   }
 
   async getStopsByTripId(agencyId: string, tripId: string) {
-    return Stop.createQueryBuilder('stop')
-      .leftJoinAndSelect(Time, 'time', 'stop.stop_id = time.stop_id')
-      .where('time.agency_id = :agencyId AND time.trip_id = :tripId', {
+    return Stop.createQueryBuilder('stops')
+      .innerJoinAndMapMany(
+        'stops.times',
+        Time,
+        'times',
+        'times.stop_id = stops.stop_id',
+      )
+      .innerJoinAndMapMany(
+        'stop.trips',
+        Trip,
+        'trips',
+        'trips.trip_id = times.trip_id',
+      )
+      .where('trips.agency_id = :agencyId AND trips.trip_id = :tripId', {
         agencyId,
         tripId,
       })
       .select([
-        'stop.agency_id',
-        'stop.stop_id',
-        'stop.stop_code',
-        'stop.stop_name',
-        'stop.stop_desc',
-        'stop.stop_lat',
-        'stop.stop_lon',
-        'stop.zone_id',
-        'stop.stop_url',
-        'stop.location_type',
-        'stop.parent_station',
-        'stop.stop_timezone',
-        'stop.wheelchair_boarding',
-        'stop.level_id',
-        'stop.platform_code',
-        'stop.stop_shelter',
-        'stop.stop_display',
+        'stops.agency_id',
+        'stops.stop_id',
+        'stops.stop_code',
+        'stops.stop_name',
+        'stops.stop_desc',
+        'stops.stop_lat',
+        'stops.stop_lon',
+        'stops.zone_id',
+        'stops.stop_url',
+        'stops.location_type',
+        'stops.parent_station',
+        'stops.stop_timezone',
+        'stops.wheelchair_boarding',
+        'stops.level_id',
+        'stops.platform_code',
+        'stops.stop_shelter',
+        'stops.stop_display',
       ])
       .execute();
   }
