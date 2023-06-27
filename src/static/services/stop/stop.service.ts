@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Agency } from 'src/entities/Agency';
 import { Stop } from 'src/entities/Stop';
 import { Time } from 'src/entities/Time';
 import { AreaDto, StopDto } from 'src/static/utils/dtos';
@@ -67,84 +66,68 @@ export class StopService {
   }
 
   async getStopsByRouteId(agencyId: string, routeId: string) {
-    return this.uniqueByKey(
-      (
-        await Time.find({
-          relations: { stop: true },
-          where: { trip: { route_id: routeId }, agency_id: agencyId },
-          select: {
-            stop: {
-              agency_id: true,
-              stop_id: true,
-              stop_code: true,
-              stop_name: true,
-              stop_desc: true,
-              stop_lat: true,
-              stop_lon: true,
-              zone_id: true,
-              stop_url: true,
-              location_type: true,
-              parent_station: true,
-              stop_timezone: true,
-              wheelchair_boarding: true,
-              level_id: true,
-              platform_code: true,
-              stop_shelter: true,
-              stop_display: true,
-            },
-          },
-          order: {
-            stop_sequence: 'ASC',
-          },
-        })
-      ).map((time) => time.stop),
-    );
+    const res = Stop.createQueryBuilder('stop')
+      .leftJoinAndSelect(Time, 'time', 'stop.stop_id = time.stop_id')
+      .where('time.agency_id = :agencyId AND time.route_id = :routeId', {
+        agencyId,
+        routeId,
+      })
+      .select([
+        'stop.agency_id',
+        'stop.stop_id',
+        'stop.stop_code',
+        'stop.stop_name',
+        'stop.stop_desc',
+        'stop.stop_lat',
+        'stop.stop_lon',
+        'stop.zone_id',
+        'stop.stop_url',
+        'stop.location_type',
+        'stop.parent_station',
+        'stop.stop_timezone',
+        'stop.wheelchair_boarding',
+        'stop.level_id',
+        'stop.platform_code',
+        'stop.stop_shelter',
+        'stop.stop_display',
+      ])
+      .execute();
+
+    console.log(res);
+    return res;
   }
 
   async getStopsByTripId(agencyId: string, tripId: string) {
-    return (
-      await Time.find({
-        relations: { stop: true },
-        where: { trip_id: tripId, agency_id: agencyId },
-        select: {
-          stop: {
-            agency_id: true,
-            stop_id: true,
-            stop_code: true,
-            stop_name: true,
-            stop_desc: true,
-            stop_lat: true,
-            stop_lon: true,
-            zone_id: true,
-            stop_url: true,
-            location_type: true,
-            parent_station: true,
-            stop_timezone: true,
-            wheelchair_boarding: true,
-            level_id: true,
-            platform_code: true,
-            stop_shelter: true,
-            stop_display: true,
-          },
-        },
-        order: {
-          stop_sequence: 'ASC',
-        },
+    return Stop.createQueryBuilder('stop')
+      .leftJoinAndSelect(Time, 'time', 'stop.stop_id = time.stop_id')
+      .where('time.agency_id = :agencyId AND time.trip_id = :tripId', {
+        agencyId,
+        tripId,
       })
-    ).map((time) => time.stop);
+      .select([
+        'stop.agency_id',
+        'stop.stop_id',
+        'stop.stop_code',
+        'stop.stop_name',
+        'stop.stop_desc',
+        'stop.stop_lat',
+        'stop.stop_lon',
+        'stop.zone_id',
+        'stop.stop_url',
+        'stop.location_type',
+        'stop.parent_station',
+        'stop.stop_timezone',
+        'stop.wheelchair_boarding',
+        'stop.level_id',
+        'stop.platform_code',
+        'stop.stop_shelter',
+        'stop.stop_display',
+      ])
+      .execute();
   }
 
-  async updateStop(agencyId: string, stopDto: StopDto) {
-    const stop = Stop.create({ ...stopDto });
-    stop.agency = await Agency.findOne({ where: { agency_id: agencyId } });
-    return Stop.save(stop);
-  }
-
-  private uniqueByKey(array: Stop[]) {
-    const seen = {};
-    return array.filter((element) => {
-      const k = element.stop_id;
-      return seen.hasOwnProperty(k) ? false : (seen[k] = true);
-    });
+  async updateStop(stopDtos: StopDto[]) {
+    const stop = Stop.create(stopDtos as Stop[]);
+    return Stop.insert(stop);
   }
 }

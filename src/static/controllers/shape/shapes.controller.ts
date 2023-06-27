@@ -41,9 +41,7 @@ export class ShapeController {
     @Body() shapes: ShapeDto[],
   ) {
     try {
-      shapes.forEach(async (shape_point) => {
-        await this.shapeService.updateShape(agencyId, shape_point);
-      });
+      if (agencyId) await this.shapeService.updateShape(shapes);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }

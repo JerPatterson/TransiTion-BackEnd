@@ -1,27 +1,12 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 import { DropOffType, PickupType, TimePointType } from 'src/static/utils/enums';
-import { Trip } from './Trip';
-import { Stop } from './Stop';
-import { Agency } from './Agency';
 
 @Entity({ name: 'times' })
-@Unique(['trip_id', 'agency_id', 'stop_id', 'arrival_time'])
 export class Time extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'varchar', length: 15 })
+  @PrimaryColumn({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @PrimaryColumn({ type: 'varchar', length: 50 })
   trip_id: string;
 
   @Column({ type: 'varchar', length: 10 })
@@ -30,7 +15,7 @@ export class Time extends BaseEntity {
   @Column({ type: 'varchar', length: 10 })
   departure_time: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   stop_id: string;
 
   @Column({ type: 'int' })
@@ -56,16 +41,4 @@ export class Time extends BaseEntity {
 
   @Column({ nullable: true, type: 'enum', enum: TimePointType })
   timepoint: number;
-
-  @ManyToOne(() => Agency, (agency) => agency.times)
-  @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
-  agency: Agency;
-
-  @ManyToOne(() => Trip, (trip) => trip.times)
-  @JoinColumn({ name: 'trip_id', referencedColumnName: 'trip_id' })
-  trip: Trip;
-
-  @ManyToOne(() => Stop, (stop) => stop.times)
-  @JoinColumn({ name: 'stop_id', referencedColumnName: 'stop_id' })
-  stop: Stop;
 }

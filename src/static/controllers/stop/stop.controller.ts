@@ -76,9 +76,7 @@ export class StopsController {
     @Body() stops: StopDto[],
   ) {
     try {
-      stops.forEach(async (stop) => {
-        await this.stopService.updateStop(agencyId, stop);
-      });
+      if (agencyId) await this.stopService.updateStop(stops);
     } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }

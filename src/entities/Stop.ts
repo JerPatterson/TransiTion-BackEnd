@@ -1,27 +1,12 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 import { LocationType, WheelchairBoardingType } from 'src/static/utils/enums';
-import { Time } from './Time';
-import { Agency } from './Agency';
 
 @Entity({ name: 'stops' })
-@Unique(['stop_id', 'agency_id'])
 export class Stop extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'varchar', length: 15 })
+  @PrimaryColumn({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @Column({ type: 'varchar', length: 30 })
+  @PrimaryColumn({ type: 'varchar', length: 30 })
   stop_id: string;
 
   @Column({ nullable: true, type: 'varchar', length: 30 })
@@ -68,11 +53,4 @@ export class Stop extends BaseEntity {
 
   @Column({ nullable: true, type: 'boolean' })
   stop_display: boolean;
-
-  @ManyToOne(() => Agency, (agency) => agency.stops)
-  @JoinColumn({ name: 'agency_id', referencedColumnName: 'agency_id' })
-  agency: Agency;
-
-  @OneToMany(() => Time, (time) => time.stop)
-  times: Time[];
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Agency } from 'src/entities/Agency';
 import { Route } from 'src/entities/Route';
 import { RouteDto } from 'src/static/utils/dtos';
 
@@ -15,7 +14,6 @@ export class RouteService {
         route_type: true,
         route_color: true,
         route_text_color: true,
-        wheelchair_boarding: true,
         night_only: true,
       },
       order: {
@@ -40,15 +38,13 @@ export class RouteService {
         route_sort_order: true,
         continuous_pickup: true,
         continuous_drop_off: true,
-        wheelchair_boarding: true,
         night_only: true,
       },
     });
   }
 
   async updateRoute(agencyId: string, routeDto: RouteDto) {
-    const route = Route.create({ ...routeDto });
-    route.agency = await Agency.findOne({ where: { agency_id: agencyId } });
+    const route = Route.create({ ...routeDto, agency_id: agencyId });
     return Route.save(route);
   }
 }

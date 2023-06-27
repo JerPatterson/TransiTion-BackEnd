@@ -61,6 +61,7 @@ export class TripDto {
 }
 
 export class TimeDto {
+  agency_id: string;
   trip_id: string;
   arrival_time: string;
   departure_time: string;

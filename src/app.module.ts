@@ -20,11 +20,12 @@ dotenv.config();
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQL_HOST,
-      port: parseInt(process.env.MYSQL_PORT, 10),
-      username: process.env.MYSQL_USERNAME,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE,
+      url: process.env.URL,
+      host: process.env.HOST,
+      username: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE,
+      ssl: { ca: process.env.SSL_CERT },
       entities: [
         Agency,
         Stop,
@@ -35,7 +36,6 @@ dotenv.config();
         Calendar,
         CalendarDate,
       ],
-      synchronize: true,
     }),
     StaticModule,
     RealtimeModule,
