@@ -53,8 +53,7 @@ export class StopsController {
   ) {
     try {
       return await this.stopService.getStopsByRouteId(agencyId, routeId);
-    } catch (e) {
-      console.log(e);
+    } catch {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
   }
