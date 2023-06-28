@@ -6,7 +6,7 @@ export class CalendarDate extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 15 })
   agency_id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryColumn({ type: 'varchar', length: 50 })
   service_id: string;
 
   @PrimaryColumn({ type: 'bigint' })

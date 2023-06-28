@@ -69,8 +69,7 @@ export class GtfsManager extends FeedManager {
         this.vehiclePositionById.set(entity.vehicle.vehicle.id, entity.vehicle);
       });
     } catch (error) {
-      console.log(error);
-      process.exit(1);
+      console.log(error.message);
     }
   }
 }

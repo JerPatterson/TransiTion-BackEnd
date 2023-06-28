@@ -12,7 +12,7 @@ export class Time extends BaseEntity {
   @Column({ type: 'varchar', length: 10 })
   arrival_time: string;
 
-  @Column({ type: 'varchar', length: 10 })
+  @PrimaryColumn({ type: 'varchar', length: 10 })
   departure_time: string;
 
   @PrimaryColumn({ type: 'varchar', length: 30 })

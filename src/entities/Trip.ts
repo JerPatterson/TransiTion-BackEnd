@@ -12,7 +12,7 @@ export class Trip extends BaseEntity {
   @Column({ type: 'varchar', length: 15 })
   route_id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @PrimaryColumn({ type: 'varchar', length: 50 })
   service_id: string;
 
   @PrimaryColumn({ type: 'varchar', length: 50 })
