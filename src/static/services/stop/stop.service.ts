@@ -72,13 +72,13 @@ export class StopService {
         'stops.times',
         Time,
         'times',
-        'times.stop_id = stops.stop_id',
+        'stops.agency_id = times.agency_id AND stops.stop_id = times.stop_id',
       )
       .innerJoinAndMapMany(
         'stop.trips',
         Trip,
         'trips',
-        'trips.trip_id = times.trip_id',
+        'trips.agency_id = times.agency_id AND trips.trip_id = times.trip_id',
       )
       .where('trips.agency_id = :agencyId AND trips.route_id = :routeId', {
         agencyId,
@@ -113,13 +113,13 @@ export class StopService {
         'stops.times',
         Time,
         'times',
-        'times.stop_id = stops.stop_id',
+        'stops.agency_id = times.agency_id AND stops.stop_id = times.stop_id',
       )
       .innerJoinAndMapMany(
-        'stop.trips',
+        'stops.trips',
         Trip,
         'trips',
-        'trips.trip_id = times.trip_id',
+        'trips.agency_id = times.agency_id AND trips.trip_id = times.trip_id',
       )
       .where('trips.agency_id = :agencyId AND trips.trip_id = :tripId', {
         agencyId,

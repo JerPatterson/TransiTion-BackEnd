@@ -95,7 +95,7 @@ export class TripService {
         'trips.times',
         Time,
         'times',
-        'trips.trip_id = times.trip_id',
+        'trips.agency_id = times.agency_id AND trips.trip_id = times.trip_id',
       )
       .where('trips.agency_id = :agencyId AND trips.times.stop_id = :stopId', {
         agencyId,
@@ -114,7 +114,7 @@ export class TripService {
   }
 
   async getTodayTripsFromStop(agencyId: string, stopId: string) {
-    return this.getStopTripsFromServiceIds(
+    return this.getTripsFromStopAndServiceIds(
       agencyId,
       stopId,
       await this.serviceService.getTodayServiceIds(agencyId),
@@ -122,7 +122,7 @@ export class TripService {
   }
 
   async getYesterdayTripsFromStop(agencyId: string, stopId: string) {
-    return this.getStopTripsFromServiceIds(
+    return this.getTripsFromStopAndServiceIds(
       agencyId,
       stopId,
       await this.serviceService.getYesterdayServiceIds(agencyId),
@@ -130,7 +130,7 @@ export class TripService {
   }
 
   async getTomorrowTripsFromStop(agencyId: string, stopId: string) {
-    return this.getStopTripsFromServiceIds(
+    return this.getTripsFromStopAndServiceIds(
       agencyId,
       stopId,
       await this.serviceService.getTomorrowServiceIds(agencyId),
@@ -142,7 +142,7 @@ export class TripService {
     stopId: string,
     dateDto: DateDto,
   ) {
-    return this.getStopTripsFromServiceIds(
+    return this.getTripsFromStopAndServiceIds(
       agencyId,
       stopId,
       await this.serviceService.getDateServiceIds(agencyId, dateDto),
@@ -177,7 +177,7 @@ export class TripService {
     });
   }
 
-  private async getStopTripsFromServiceIds(
+  private async getTripsFromStopAndServiceIds(
     agencyId: string,
     stopId: string,
     serviceIds: string[],
@@ -187,7 +187,7 @@ export class TripService {
         'trips.times',
         Time,
         'times',
-        'trips.trip_id = times.trip_id',
+        'trips.agency_id = times.agency_id AND trips.trip_id = times.trip_id',
       )
       .where(
         'trips.agency_id = :agencyId AND trips.times.stop_id = :stopId \

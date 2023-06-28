@@ -11,11 +11,11 @@ export class TimeService {
 
   async getTimesByTripId(agencyId: string, tripId: string) {
     return Time.createQueryBuilder('times')
-      .innerJoinAndMapMany(
+      .innerJoinAndMapOne(
         'times.stops',
         Stop,
         'stops',
-        'times.stop_id = stops.stop_id',
+        'times.agency_id = stops.agency_id AND times.stop_id = stops.stop_id',
       )
       .where('times.agency_id = :agencyId AND times.trip_id = :tripId', {
         agencyId,
@@ -173,20 +173,21 @@ export class TimeService {
     serviceIds: string[],
   ) {
     return Time.createQueryBuilder('times')
-      .innerJoinAndMapMany(
+      .innerJoinAndMapOne(
         'times.stops',
         Stop,
         'stops',
-        'times.stop_id = stops.stop_id',
+        'times.agency_id = stops.agency_id AND times.stop_id = stops.stop_id',
       )
-      .innerJoinAndMapMany(
+      .innerJoinAndMapOne(
         'times.trips',
         Trip,
         'trips',
-        'times.trip_id = trips.trip_id',
+        'times.agency_id = trips.agency_id AND times.trip_id = trips.trip_id',
       )
       .where(
-        'times.agency_id = :agencyId AND times.trips.route_id = :routeId AND times.trips.service_id IN(:serviceIds)',
+        'times.agency_id = :agencyId AND times.trips.route_id = :routeId \
+          AND times.trips.service_id IN(:serviceIds)',
         {
           agencyId,
           routeId,
@@ -222,11 +223,11 @@ export class TimeService {
     serviceIds: string[],
   ) {
     return Time.createQueryBuilder('times')
-      .innerJoinAndMapMany(
+      .innerJoinAndMapOne(
         'times.trips',
         Trip,
         'trips',
-        'times.trip_id = trips.trip_id',
+        'times.agency_id = trips.agency_id AND times.trip_id = trips.trip_id',
       )
       .where(
         'times.agency_id = :agencyId AND times.stop_id = :stopId \
@@ -262,17 +263,11 @@ export class TimeService {
     serviceIds: string[],
   ) {
     return Time.createQueryBuilder('times')
-      .innerJoinAndMapMany(
-        'times.stops',
-        Stop,
-        'stops',
-        'times.stop_id = stops.stop_id',
-      )
-      .innerJoinAndMapMany(
+      .innerJoinAndMapOne(
         'times.trips',
         Trip,
         'trips',
-        'times.trip_id = trips.trip_id',
+        'times.agency_id = trips.agency_id AND times.trip_id = trips.trip_id',
       )
       .where(
         'times.agency_id = :agencyId AND times.trips.route_id = :routeId \
