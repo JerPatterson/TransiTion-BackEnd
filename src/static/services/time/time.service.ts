@@ -229,7 +229,8 @@ export class TimeService {
         'times.trip_id = trips.trip_id',
       )
       .where(
-        'times.agency_id = :agencyId AND times.stop_id = :stopId AND times.trips.service_id IN(:serviceIds)',
+        'times.agency_id = :agencyId AND times.stop_id = :stopId \
+          AND times.trips.service_id IN(:serviceIds)',
         {
           agencyId,
           stopId,
