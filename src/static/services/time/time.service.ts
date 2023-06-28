@@ -22,16 +22,16 @@ export class TimeService {
         tripId,
       })
       .select([
-        'times.arrival_time',
-        'times.departure_time',
-        'times.pickup_type',
-        'times.drop_off_type',
-        'times.stops.stop_id',
-        'times.stops.stop_name',
-        'times.stops.stop_lat',
-        'times.stops.stop_lon',
-        'times.stops.stop_shelter',
-        'times.stops.wheelchair_boarding',
+        'times.arrival_time AS arrival_time',
+        'times.departure_time AS departure_time',
+        'times.pickup_type AS pickup_type',
+        'times.drop_off_type AS drop_off_type',
+        'times.stops.stop_id AS stop_id',
+        'times.stops.stop_name AS stop_name',
+        'times.stops.stop_lat AS stop_lat',
+        'times.stops.stop_lon AS stop_lon',
+        'times.stops.stop_shelter AS stop_shelter',
+        'times.stops.wheelchair_boarding AS wheelchair_boarding',
       ])
       .orderBy('times.stop_sequence', 'ASC')
       .execute();
@@ -195,21 +195,22 @@ export class TimeService {
         },
       )
       .select([
-        'times.arrival_time',
-        'times.departure_time',
-        'times.pickup_type',
-        'times.drop_off_type',
-        'times.stops.stop_id',
-        'times.stops.stop_name',
-        'times.stops.stop_lat',
-        'times.stops.stop_lon',
-        'times.stops.stop_shelter',
-        'times.trips.trip_id',
-        'times.trips.trip_headsign',
-        'times.trips.trip_short_name',
-        'times.trips.shape_id',
-        'times.trips.wheelchair_accessible',
-        'times.trips.bikes_allowed',
+        'times.arrival_time AS arrival_time',
+        'times.departure_time AS departure_time',
+        'times.pickup_type AS pickup_type',
+        'times.drop_off_type AS drop_off_type',
+        'times.stops.stop_id AS stop_id',
+        'times.stops.stop_name AS stop_name',
+        'times.stops.stop_lat AS stop_lat',
+        'times.stops.stop_lon AS stop_lon',
+        'times.stops.stop_shelter AS stop_shelter',
+        'times.stops.wheelchair_boarding AS wheelchair_boarding',
+        'times.trips.trip_id AS trip_id',
+        'times.trips.trip_headsign AS trip_headsign',
+        'times.trips.trip_short_name AS trip_short_name',
+        'times.trips.shape_id AS shape_id',
+        'times.trips.wheelchair_accessible AS wheelchair_accessible',
+        'times.trips.bikes_allowed AS bikes_allowed',
       ])
       .orderBy('times.stop_sequence', 'ASC')
       .addOrderBy('times.arrival_time', 'ASC')
@@ -239,17 +240,17 @@ export class TimeService {
         },
       )
       .select([
-        'times.arrival_time',
-        'times.departure_time',
-        'times.pickup_type',
-        'times.drop_off_type',
-        'times.trips.trip_id',
-        'times.trips.route_id',
-        'times.trips.trip_headsign',
-        'times.trips.trip_short_name',
-        'times.trips.shape_id',
-        'times.trips.wheelchair_accessible',
-        'times.trips.bikes_allowed',
+        'times.arrival_time AS arrival_time',
+        'times.departure_time AS departure_time',
+        'times.pickup_type AS pickup_type',
+        'times.drop_off_type AS drop_off_type',
+        'times.trips.trip_id AS trip_id',
+        'times.trips.route_id AS route_id',
+        'times.trips.trip_headsign AS trip_headsign',
+        'times.trips.trip_short_name AS trip_short_name',
+        'times.trips.shape_id AS shape_id',
+        'times.trips.wheelchair_accessible AS wheelchair_accessible',
+        'times.trips.bikes_allowed AS bikes_allowed',
       ])
       .addOrderBy('times.arrival_time', 'ASC')
       .addOrderBy('times.departure_time', 'ASC')
@@ -280,16 +281,16 @@ export class TimeService {
         },
       )
       .select([
-        'times.arrival_time',
-        'times.departure_time',
-        'times.pickup_type',
-        'times.drop_off_type',
-        'times.trips.trip_id',
-        'times.trips.trip_headsign',
-        'times.trips.trip_short_name',
-        'times.trips.shape_id',
-        'times.trips.wheelchair_accessible',
-        'times.trips.bikes_allowed',
+        'times.arrival_time AS arrival_time',
+        'times.departure_time AS departure_time',
+        'times.pickup_type AS pickup_type',
+        'times.drop_off_type AS drop_off_type',
+        'times.trips.trip_id AS trip_id',
+        'times.trips.trip_headsign AS trip_headsign',
+        'times.trips.trip_short_name AS trip_short_name',
+        'times.trips.shape_id AS shape_id',
+        'times.trips.wheelchair_accessible AS wheelchair_accessible',
+        'times.trips.bikes_allowed AS bikes_allowed',
       ])
       .orderBy('times.stop_sequence', 'ASC')
       .addOrderBy('times.arrival_time', 'ASC')

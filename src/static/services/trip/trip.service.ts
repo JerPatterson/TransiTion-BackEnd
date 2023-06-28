@@ -102,13 +102,13 @@ export class TripService {
         stopId,
       })
       .select([
-        'trips.trip_id',
-        'trips.route_id',
-        'trips.trip_headsign',
-        'trips.trip_short_name',
-        'trips.shape_id',
-        'trips.wheelchair_accessible',
-        'trips.bikes_allowed',
+        'trips.trip_id AS trip_id',
+        'trips.route_id AS route_id',
+        'trips.trip_headsign AS trip_headsign',
+        'trips.trip_short_name AS trip_short_name',
+        'trips.shape_id AS shape_id',
+        'trips.wheelchair_accessible AS wheelchair_accessible',
+        'trips.bikes_allowed AS bikes_allowed',
       ])
       .execute();
   }
@@ -199,13 +199,13 @@ export class TripService {
         },
       )
       .select([
-        'trips.trip_id',
-        'trips.route_id',
-        'trips.trip_headsign',
-        'trips.trip_short_name',
-        'trips.shape_id',
-        'trips.wheelchair_accessible',
-        'trips.bikes_allowed',
+        'trips.trip_id AS trip_id',
+        'trips.route_id AS route_id',
+        'trips.trip_headsign AS trip_headsign',
+        'trips.trip_short_name AS trip_short_name',
+        'trips.shape_id AS shape_id',
+        'trips.wheelchair_accessible AS wheelchair_accessible',
+        'trips.bikes_allowed AS bikes_allowed',
       ])
       .execute();
   }
