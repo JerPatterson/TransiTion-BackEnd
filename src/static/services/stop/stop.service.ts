@@ -11,16 +11,12 @@ export class StopService {
     return Stop.find({
       where: { agency_id: agencyId },
       select: {
+        agency_id: true,
         stop_id: true,
         stop_code: true,
-        stop_name: true,
         stop_lat: true,
         stop_lon: true,
-        location_type: true,
-        parent_station: true,
-        wheelchair_boarding: true,
         stop_shelter: true,
-        stop_display: true,
       },
       order: { stop_name: 'ASC' },
     });
@@ -35,9 +31,12 @@ export class StopService {
       select: {
         agency_id: true,
         stop_id: true,
+        stop_code: true,
         stop_lat: true,
         stop_lon: true,
+        stop_shelter: true,
       },
+      order: { agency_id: 'ASC', stop_name: 'ASC' },
     });
   }
 
