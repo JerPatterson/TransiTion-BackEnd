@@ -11,11 +11,12 @@ export class StopService {
     return Stop.find({
       where: { agency_id: agencyId },
       select: {
-        agency_id: true,
         stop_id: true,
         stop_code: true,
+        stop_name: true,
         stop_lat: true,
         stop_lon: true,
+        wheelchair_boarding: true,
         stop_shelter: true,
       },
       order: { stop_name: 'ASC' },
@@ -32,8 +33,10 @@ export class StopService {
         agency_id: true,
         stop_id: true,
         stop_code: true,
+        stop_name: true,
         stop_lat: true,
         stop_lon: true,
+        wheelchair_boarding: true,
         stop_shelter: true,
       },
       order: { agency_id: 'ASC', stop_name: 'ASC' },
@@ -73,7 +76,7 @@ export class StopService {
         'stops.agency_id = times.agency_id AND stops.stop_id = times.stop_id',
       )
       .innerJoinAndMapMany(
-        'stop.trips',
+        'stops.trips',
         Trip,
         'trips',
         'trips.agency_id = times.agency_id AND trips.trip_id = times.trip_id',
