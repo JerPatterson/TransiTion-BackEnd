@@ -16,8 +16,6 @@ export abstract class FeedManager {
     routeId: string,
   ): Promise<GtfsRealtimeBindings.transit_realtime.IVehiclePosition[]>;
 
-  // TODO
-  // abstract getTripUpdates(): TripUpdate[];
   // abstract getTripUpdateById(tripId: string): TripUpdate;
-  // abstract getTripUpdatesFromRoute(routeId: string): TripUpdate[];
+  // abstract getTripUpdatesFromStop(stopId: string): TripUpdate[];
 }
