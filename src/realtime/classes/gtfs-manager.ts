@@ -11,13 +11,23 @@ export class GtfsManager extends FeedManager {
     GtfsRealtimeBindings.transit_realtime.IVehiclePosition
   >();
 
+  private tripUpdateByTripId = new Map<
+    string,
+    GtfsRealtimeBindings.transit_realtime.ITripUpdate
+  >();
+  private tripUpdateByStopId = new Map<
+    string,
+    GtfsRealtimeBindings.transit_realtime.ITripUpdate[]
+  >();
+
   constructor(protected feed: FeedInfo) {
     super(feed);
 
-    setInterval(
-      () => this.getVehiclePositionsFeedData(),
-      feed.refreshRateInSeconds * ONE_SEC_IN_MS,
-    );
+    setInterval(() => {
+      this.getTripUpdatesFeedData();
+      this.getVehiclePositionsFeedData();
+      console.log(this.feed.agencyId + ' refresh ...');
+    }, feed.refreshRateInSeconds * ONE_SEC_IN_MS);
   }
 
   async getVehiclePositions(): Promise<
@@ -26,7 +36,7 @@ export class GtfsManager extends FeedManager {
     const vehicleIds = [...this.uniqueVehicleIds];
     return Promise.all(
       vehicleIds.map(async (vehicleId) => {
-        return await this.getVehiclePositionById(vehicleId);
+        return this.getVehiclePositionById(vehicleId);
       }),
     );
   }
@@ -45,31 +55,79 @@ export class GtfsManager extends FeedManager {
     });
   }
 
+  async getTripUpdateById(
+    tripId: string,
+  ): Promise<GtfsRealtimeBindings.transit_realtime.ITripUpdate> {
+    return this.tripUpdateByTripId.get(tripId);
+  }
+
+  async getTripUpdateFromStop(
+    stopId: string,
+  ): Promise<GtfsRealtimeBindings.transit_realtime.ITripUpdate[]> {
+    return this.tripUpdateByStopId.get(stopId);
+  }
+
   private async getVehiclePositionsFeedData(): Promise<void> {
     try {
-      console.log(this.feed.agencyId + ' refresh ...');
-      const response = await fetch(this.feed.vehiclePositionUrl, {
-        headers: this.feed.headers,
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `${response.url}: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const buffer = await response.arrayBuffer();
-      const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
-        new Uint8Array(buffer),
+      const feedMessage = await this.getFeedMessage(
+        this.feed.vehiclePositionUrl,
+        this.feed.headers,
       );
 
-      feed.entity.forEach((entity) => {
+      feedMessage.entity.forEach((entity) => {
         if (!entity.vehicle) return;
         this.uniqueVehicleIds.add(entity.vehicle.vehicle.id);
         this.vehiclePositionById.set(entity.vehicle.vehicle.id, entity.vehicle);
       });
-    } catch (error) {
-      console.log(error.message);
+    } catch (e) {
+      console.log(e.message);
     }
+  }
+
+  private async getTripUpdatesFeedData(): Promise<void> {
+    try {
+      const feedMessage = await this.getFeedMessage(
+        this.feed.tripUpdateUrl,
+        this.feed.headers,
+      );
+
+      this.tripUpdateByTripId = new Map();
+      this.tripUpdateByStopId = new Map();
+
+      feedMessage.entity.forEach((entity) => {
+        if (!entity.tripUpdate?.trip?.tripId) return;
+        if (!entity.tripUpdate?.stopTimeUpdate?.length) return;
+
+        this.tripUpdateByTripId.set(
+          entity.tripUpdate.trip.tripId,
+          entity.tripUpdate,
+        );
+
+        entity.tripUpdate.stopTimeUpdate.forEach((stopTimeUpdate) => {
+          const tripUdates = this.tripUpdateByStopId.get(stopTimeUpdate.stopId);
+          this.tripUpdateByStopId.set(
+            stopTimeUpdate.stopId,
+            tripUdates
+              ? tripUdates.concat([entity.tripUpdate])
+              : [entity.tripUpdate],
+          );
+        });
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  private async getFeedMessage(
+    url: string,
+    headers: HeadersInit,
+  ): Promise<GtfsRealtimeBindings.transit_realtime.FeedMessage> {
+    const response = await fetch(url, { headers });
+    if (!response.ok)
+      throw new Error(`${url}: ${response.status} ${response.statusText}`);
+
+    return GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
+      new Uint8Array(await response.arrayBuffer()),
+    );
   }
 }
