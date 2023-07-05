@@ -118,7 +118,9 @@ export class NextBusManager extends FeedManager {
   private async getVehiclePositionsFeedData(): Promise<void> {
     try {
       const xmlDocument = await this.getXmlMessage(
-        this.feed.vehiclePositionUrl,
+        `${this.feed.vehiclePositionUrl}&t=${
+          Date.now() - this.feed.refreshRateInSeconds * ONE_SEC_IN_MS
+        }`,
         this.feed.headers,
       );
 
@@ -215,8 +217,14 @@ export class NextBusManager extends FeedManager {
     return {
       tripId: tripTag,
       routeId: routeTag,
-      startTime: `${epochTime.getHours()}:${epochTime.getMinutes()}:${epochTime.getSeconds()}`,
-      startDate: `${epochTime.getFullYear()}${epochTime.getMonth()}${epochTime.getDay()}`,
+      startTime: `${this.convertToTwoDigits(
+        epochTime.getHours(),
+      )}:${this.convertToTwoDigits(
+        epochTime.getMinutes(),
+      )}:${this.convertToTwoDigits(epochTime.getSeconds())}`,
+      startDate: `${epochTime.getFullYear()}${this.convertToTwoDigits(
+        epochTime.getMonth(),
+      )}${this.convertToTwoDigits(epochTime.getDay())}`,
     };
   }
 
@@ -230,5 +238,9 @@ export class NextBusManager extends FeedManager {
       throw new Error(`${url}: ${response.status} ${response.statusText}`);
 
     return new JSDOM(await response.text(), { contentType }).window.document;
+  }
+
+  private convertToTwoDigits(nb: number): string {
+    return nb < 10 ? '0' + nb.toString() : nb.toString();
   }
 }
