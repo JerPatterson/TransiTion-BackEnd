@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FeedManager } from 'src/realtime/classes/feed-manager';
 import { GtfsManager } from 'src/realtime/classes/gtfs-manager';
+import { NextBusManager } from 'src/realtime/classes/nextbus-manager';
 import { FeedType } from 'src/realtime/feed/feed-info';
 import { INSTANCES } from 'src/realtime/feed/feed-instances';
 
@@ -16,6 +17,13 @@ export class FeedManagerFactoryService {
             instance.agencyId,
             new GtfsManager(instance),
           );
+          break;
+        case FeedType.NEXTBUSXML:
+          this.feedManagerByAgencyId.set(
+            instance.agencyId,
+            new NextBusManager(instance),
+          );
+          break;
       }
     });
   }
