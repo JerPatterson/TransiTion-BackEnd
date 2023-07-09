@@ -8,6 +8,7 @@ export class RouteService {
     return Route.find({
       where: { agency_id: agencyId },
       select: {
+        agency_id: true,
         route_id: true,
         route_long_name: true,
         route_short_name: true,
@@ -27,6 +28,7 @@ export class RouteService {
     return Route.findOne({
       where: { route_id: routeId, agency_id: agencyId },
       select: {
+        agency_id: true,
         route_id: true,
         route_long_name: true,
         route_short_name: true,

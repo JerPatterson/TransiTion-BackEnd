@@ -155,9 +155,9 @@ export class NextBusManager extends FeedManager {
         latitude: lat,
         longitude: lon,
         bearing: heading < 0 ? undefined : heading,
-        speed: (speedKmHr * ONE_KM_IN_METER) / ONE_HOUR_IN_MIN,
+        speed: (speedKmHr * ONE_HOUR_IN_MIN) / ONE_KM_IN_METER,
       },
-      timestamp: (Date.now() / ONE_SEC_IN_MS - secsSinceReport) * ONE_SEC_IN_MS,
+      timestamp: Date.now() / ONE_SEC_IN_MS - secsSinceReport,
     };
   }
 
