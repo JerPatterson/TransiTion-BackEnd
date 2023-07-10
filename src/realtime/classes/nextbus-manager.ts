@@ -2,7 +2,7 @@ import { FeedManager } from 'src/realtime/classes/feed-manager';
 import { FeedInfo } from 'src/realtime/feed/feed-info';
 import {
   MINUTES_OF_TRIP_CHANGE,
-  ONE_HOUR_IN_MIN,
+  ONE_HOUR_IN_SEC,
   ONE_KM_IN_METER,
   ONE_SEC_IN_MS,
 } from 'src/static/utils/constants';
@@ -155,7 +155,7 @@ export class NextBusManager extends FeedManager {
         latitude: lat,
         longitude: lon,
         bearing: heading < 0 ? undefined : heading,
-        speed: (speedKmHr * ONE_HOUR_IN_MIN) / ONE_KM_IN_METER,
+        speed: (speedKmHr * ONE_KM_IN_METER) / ONE_HOUR_IN_SEC,
       },
       timestamp: Date.now() / ONE_SEC_IN_MS - secsSinceReport,
     };
