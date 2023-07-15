@@ -144,12 +144,14 @@ export class NextBusManager extends FeedManager {
     const id = vehicle.getAttribute('id');
     const lat = Number(vehicle.getAttribute('lat'));
     const lon = Number(vehicle.getAttribute('lon'));
+    const routeTag = vehicle.getAttribute('routeTag');
     const secsSinceReport = Number(vehicle.getAttribute('secsSinceReport'));
     const heading = Number(vehicle.getAttribute('heading'));
     const speedKmHr = Number(vehicle.getAttribute('speedKmHr'));
+    const trip = this.tripDescriptorByVehicleId.get(id);
 
     return {
-      trip: this.tripDescriptorByVehicleId.get(id),
+      trip: trip?.routeId !== routeTag ? { routeId: routeTag } : trip,
       vehicle: { id },
       position: {
         latitude: lat,
@@ -213,10 +215,12 @@ export class NextBusManager extends FeedManager {
   ): Promise<GtfsRealtimeBindings.transit_realtime.ITripDescriptor> {
     const epochTime = new Date(Number(prediction.getAttribute('epochTime')));
     const tripTag = prediction.getAttribute('tripTag');
+    const dirTag = prediction.getAttribute('dirTag').split('_');
 
     return {
       tripId: tripTag,
       routeId: routeTag,
+      directionId: dirTag.length > 1 ? Number(dirTag[1]) : null,
       startTime: `${this.convertToTwoDigits(
         epochTime.getHours(),
       )}:${this.convertToTwoDigits(
