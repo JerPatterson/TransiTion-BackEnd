@@ -22,6 +22,7 @@ import { ServiceService } from './services/service/service.service';
 import { ServiceController } from './controllers/service/service.controller';
 import { Calendar } from 'src/entities/Calendar';
 import { CalendarDate } from 'src/entities/CalendarDate';
+import { DatabaseService } from './services/database/database.service';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { CalendarDate } from 'src/entities/CalendarDate';
     TimeService,
     ShapeService,
     ServiceService,
+    DatabaseService,
   ],
 })
 export class StaticModule {}

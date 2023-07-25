@@ -20,12 +20,12 @@ dotenv.config();
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      url: process.env.URL,
-      host: process.env.HOST,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
-      ssl: { ca: process.env.SSL_CERT },
+      url: process.env.PS_URL,
+      host: process.env.PS_HOST,
+      username: process.env.PS_USERNAME,
+      password: process.env.PS_PASSWORD,
+      database: process.env.PS_DATABASE,
+      ssl: {},
       entities: [
         Agency,
         Stop,

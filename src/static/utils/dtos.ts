@@ -76,9 +76,13 @@ export class TimeDto {
   timepoint?: number;
 }
 
-export class ShapeDto {
+export class ShapesDto {
   agency_id: string;
   shape_id: string;
+  shapes: ShapeDto[];
+}
+
+export class ShapeDto {
   shape_pt_lat: number;
   shape_pt_lon: number;
   shape_pt_sequence: number;

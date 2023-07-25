@@ -24,7 +24,7 @@ export class GtfsManager extends FeedManager {
     super(feed);
 
     setInterval(() => {
-      this.getTripUpdatesFeedData();
+      // this.getTripUpdatesFeedData();
       this.getVehiclePositionsFeedData();
       console.log(this.feed.agencyId + ' refresh ...');
     }, feed.refreshRateInSeconds * ONE_SEC_IN_MS);

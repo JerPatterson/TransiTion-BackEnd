@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ShapeService } from 'src/static/services/shape/shape.service';
-import { ShapeDto } from 'src/static/utils/dtos';
+import { ShapesDto } from 'src/static/utils/dtos';
 
 @Controller('shapes')
 export class ShapeController {
@@ -36,9 +36,9 @@ export class ShapeController {
   }
 
   @Put('/:agencyId')
-  async updateStop(
+  async updateShapes(
     @Param('agencyId') agencyId: string,
-    @Body() shapes: ShapeDto[],
+    @Body() shapes: ShapesDto,
   ) {
     try {
       if (agencyId) await this.shapeService.updateShape(shapes);
