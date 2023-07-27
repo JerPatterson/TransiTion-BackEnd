@@ -17,7 +17,6 @@ import { TimeController } from './controllers/time/time.controller';
 import { TimeService } from './services/time/time.service';
 import { ShapeController } from './controllers/shape/shapes.controller';
 import { ShapeService } from './services/shape/shape.service';
-import { Shape } from 'src/entities/Shape';
 import { ServiceService } from './services/service/service.service';
 import { ServiceController } from './controllers/service/service.controller';
 import { Calendar } from 'src/entities/Calendar';
@@ -32,7 +31,6 @@ import { DatabaseService } from './services/database/database.service';
       Route,
       Trip,
       Time,
-      Shape,
       Calendar,
       CalendarDate,
     ]),

@@ -3,7 +3,11 @@ import { Calendar } from 'src/entities/Calendar';
 import { CalendarDate } from 'src/entities/CalendarDate';
 import { ONE_SEC_IN_MS, SECONDS_IN_DAY } from 'src/static/utils/constants';
 import { CalendarDateDto, CalendarDto, DateDto } from 'src/static/utils/dtos';
-import { Day, ServiceExceptionType } from 'src/static/utils/enums';
+import {
+  Day,
+  ServiceDayType,
+  ServiceExceptionType,
+} from 'src/static/utils/enums';
 import { AgencyService } from '../agency/agency.service';
 
 @Injectable()
@@ -147,7 +151,7 @@ export class ServiceService {
   private isServiceOfDay(
     calendarElement: Calendar,
     dayOfTheWeek: number,
-  ): boolean {
+  ): ServiceDayType {
     switch (dayOfTheWeek) {
       case Day.Sunday:
         return calendarElement.sunday;
@@ -164,7 +168,7 @@ export class ServiceService {
       case Day.Saturday:
         return calendarElement.saturday;
       default:
-        return false;
+        return ServiceDayType.ServiceInactiveForTheDay;
     }
   }
 }

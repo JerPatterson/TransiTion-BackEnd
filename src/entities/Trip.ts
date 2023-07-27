@@ -1,10 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, PrimaryColumn } from 'typeorm';
 import {
   BikesBoardingType,
   WheelchairBoardingType,
 } from 'src/static/utils/enums';
 
 @Entity({ name: 'trips' })
+@Index(['agency_id', 'trip_id'])
+@Index(['agency_id', 'service_id', 'route_id'])
 export class Trip extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 15 })
   agency_id: string;

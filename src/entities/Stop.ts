@@ -1,7 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
-import { LocationType, WheelchairBoardingType } from 'src/static/utils/enums';
+import { BaseEntity, Column, Entity, Index, PrimaryColumn } from 'typeorm';
+import {
+  LocationType,
+  StopShelterType,
+  WheelchairBoardingType,
+} from 'src/static/utils/enums';
 
 @Entity({ name: 'stops' })
+@Index(['stop_lon', 'stop_lat'])
 export class Stop extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 15 })
   agency_id: string;
@@ -48,9 +53,9 @@ export class Stop extends BaseEntity {
   @Column({ nullable: true, type: 'varchar', length: 30 })
   platform_code: string;
 
-  @Column({ nullable: true, type: 'boolean' })
-  stop_shelter: boolean;
+  @Column({ nullable: true, type: 'enum', enum: StopShelterType })
+  stop_shelter: number;
 
-  @Column({ nullable: true, type: 'boolean' })
-  stop_display: boolean;
+  @Column({ type: 'json' })
+  route_ids: string[];
 }

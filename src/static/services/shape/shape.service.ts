@@ -12,7 +12,7 @@ export class ShapeService {
         { agency_id: agencyId },
         {
           projection: { _id: 0 },
-          sort: { shape_id: 1, shape_pt_sequence: 1 },
+          sort: { shape_id: 1 },
         },
       )
       .toArray();
@@ -23,10 +23,7 @@ export class ShapeService {
       await this.databaseService.shapesCollection
         .find(
           { agency_id: agencyId, shape_id: shapeId },
-          {
-            projection: { _id: 0 },
-            sort: { shape_pt_sequence: 1 },
-          },
+          { projection: { _id: 0 } },
         )
         .toArray()
     ).pop();

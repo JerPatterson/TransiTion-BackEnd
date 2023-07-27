@@ -25,4 +25,16 @@ export class Agency extends BaseEntity {
 
   @Column({ nullable: true })
   agency_email: string;
+
+  @Column({ nullable: true, type: 'float' })
+  min_lat: number;
+
+  @Column({ nullable: true, type: 'float' })
+  max_lat: number;
+
+  @Column({ nullable: true, type: 'float' })
+  min_lon: number;
+
+  @Column({ nullable: true, type: 'float' })
+  max_lon: number;
 }

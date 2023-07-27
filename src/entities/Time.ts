@@ -1,7 +1,9 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, PrimaryColumn } from 'typeorm';
 import { DropOffType, PickupType, TimePointType } from 'src/static/utils/enums';
 
 @Entity({ name: 'times' })
+@Index(['agency_id', 'trip_id'])
+@Index(['agency_id', 'stop_id'])
 export class Time extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 15 })
   agency_id: string;

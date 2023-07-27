@@ -45,8 +45,8 @@ export class RouteService {
     });
   }
 
-  async updateRoute(agencyId: string, routeDto: RouteDto) {
-    const route = Route.create({ ...routeDto, agency_id: agencyId });
+  async updateRoute(_: string, routeDto: RouteDto) {
+    const route = Route.create({ ...routeDto });
     return Route.save(route);
   }
 }

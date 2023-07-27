@@ -62,7 +62,7 @@ export class StopService {
         level_id: true,
         platform_code: true,
         stop_shelter: true,
-        stop_display: true,
+        route_ids: true,
       },
     });
   }

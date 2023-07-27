@@ -1,3 +1,4 @@
+import { ServiceDayType } from 'src/static/utils/enums';
 import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'calendar' })
@@ -8,26 +9,26 @@ export class Calendar extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 50 })
   service_id: string;
 
-  @Column({ type: 'boolean' })
-  monday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  monday: ServiceDayType;
 
-  @Column({ type: 'boolean' })
-  tuesday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  tuesday: ServiceDayType;
 
-  @Column({ type: 'boolean' })
-  wednesday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  wednesday: ServiceDayType;
 
-  @Column({ type: 'boolean' })
-  thursday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  thursday: ServiceDayType;
 
-  @Column({ type: 'boolean' })
-  friday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  friday: ServiceDayType;
 
-  @Column({ type: 'boolean' })
-  saturday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  saturday: ServiceDayType;
 
-  @Column({ type: 'boolean' })
-  sunday: boolean;
+  @Column({ type: 'enum', enum: ServiceDayType })
+  sunday: ServiceDayType;
 
   @Column({ type: 'bigint' })
   start_date: number;

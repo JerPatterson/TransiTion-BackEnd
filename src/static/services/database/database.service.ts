@@ -14,10 +14,6 @@ export class DatabaseService {
     return this.database.collection(process.env.MONGO_SHAPES_COLLECTION);
   }
 
-  get timesCollection(): Collection {
-    return this.database.collection(process.env.MONGO_TIMES_COLLECTION);
-  }
-
   private async connectToDB(): Promise<void> {
     try {
       await this.client.connect();

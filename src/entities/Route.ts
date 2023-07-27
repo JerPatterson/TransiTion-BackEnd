@@ -1,13 +1,19 @@
 import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
-import { DropOffType, PickupType, RouteType } from 'src/static/utils/enums';
+import {
+  DropOffType,
+  NightRouteType,
+  PickupType,
+  RouteType,
+  WheelchairBoardingType,
+} from 'src/static/utils/enums';
 
 @Entity({ name: 'routes' })
 export class Route extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 15 })
-  route_id: string;
+  agency_id: string;
 
   @PrimaryColumn({ type: 'varchar', length: 15 })
-  agency_id: string;
+  route_id: string;
 
   @Column({ type: 'varchar', length: 25 })
   route_short_name: string;
@@ -39,6 +45,12 @@ export class Route extends BaseEntity {
   @Column({ nullable: true, type: 'enum', enum: DropOffType })
   continuous_drop_off: number;
 
-  @Column({ nullable: true, type: 'boolean' })
-  night_only: boolean;
+  @Column({ nullable: true, type: 'enum', enum: WheelchairBoardingType })
+  wheelchair_boarding: number;
+
+  @Column({ nullable: true, type: 'enum', enum: NightRouteType })
+  night_only: NightRouteType;
+
+  @Column({ type: 'json' })
+  stop_ids: string[];
 }

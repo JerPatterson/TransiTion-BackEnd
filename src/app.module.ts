@@ -9,7 +9,6 @@ import { Stop } from './entities/Stop';
 import { Trip } from './entities/Trip';
 import { Time } from './entities/Time';
 import { Route } from './entities/Route';
-import { Shape } from './entities/Shape';
 import { CalendarDate } from './entities/CalendarDate';
 import { Calendar } from './entities/Calendar';
 import { RealtimeModule } from './realtime/realtime.module';
@@ -26,16 +25,7 @@ dotenv.config();
       password: process.env.PS_PASSWORD,
       database: process.env.PS_DATABASE,
       ssl: {},
-      entities: [
-        Agency,
-        Stop,
-        Route,
-        Time,
-        Trip,
-        Shape,
-        Calendar,
-        CalendarDate,
-      ],
+      entities: [Agency, Stop, Route, Time, Trip, Calendar, CalendarDate],
     }),
     StaticModule,
     RealtimeModule,

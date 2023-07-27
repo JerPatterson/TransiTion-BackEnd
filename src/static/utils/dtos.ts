@@ -1,5 +1,3 @@
-import { LocationType, WheelchairBoardingType } from './enums';
-
 export class AgencyDto {
   agency_id: string;
   agency_name: string;
@@ -12,6 +10,7 @@ export class AgencyDto {
 }
 
 export class StopDto {
+  agency_id: string;
   stop_id: string;
   stop_code?: string;
   stop_name: string;
@@ -20,19 +19,19 @@ export class StopDto {
   stop_lon: number;
   zone_id?: string;
   stop_url?: string;
-  location_type: LocationType;
+  location_type: number;
   parent_station?: string;
   stop_timezone?: string;
-  wheelchair_boarding?: WheelchairBoardingType;
   level_id?: string;
   platform_code?: string;
-  stop_shelter: boolean;
-  stop_display: boolean;
+  stop_shelter?: number;
+  wheelchair_boarding?: number;
+  route_ids?: string[];
 }
 
 export class RouteDto {
-  route_id: string;
   agency_id: string;
+  route_id: string;
   route_short_name: string;
   route_long_name: string;
   route_desc?: string;
@@ -44,10 +43,12 @@ export class RouteDto {
   continuous_pickup?: number;
   continuous_drop_off?: number;
   wheelchair_boarding?: number;
-  night_only?: boolean;
+  night_only?: number;
+  stop_ids?: string[];
 }
 
 export class TripDto {
+  agency_id: string;
   route_id: string;
   service_id: string;
   trip_id: string;
@@ -92,13 +93,13 @@ export class ShapeDto {
 export class CalendarDto {
   agency_id: string;
   service_id: string;
-  monday: boolean;
-  tuesday: boolean;
-  wednesday: boolean;
-  thursday: boolean;
-  friday: boolean;
-  saturday: boolean;
-  sunday: boolean;
+  monday: number;
+  tuesday: number;
+  wednesday: number;
+  thursday: number;
+  friday: number;
+  saturday: number;
+  sunday: number;
   start_date: number;
   end_date: number;
 }

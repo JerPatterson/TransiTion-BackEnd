@@ -12,6 +12,12 @@ export enum WheelchairBoardingType {
   NotPossible,
 }
 
+export enum StopShelterType {
+  NoInformation,
+  HasShelter,
+  NoShelter,
+}
+
 export enum RouteType {
   LightRail,
   Subway,
@@ -39,6 +45,12 @@ export enum DropOffType {
   MustCoordinateWithDriver,
 }
 
+export enum NightRouteType {
+  InactiveAtNight,
+  ActiveOnlyAtNight,
+  ActiveAtNight,
+}
+
 export enum BikesBoardingType {
   NoInformation,
   SomeVehicles,
@@ -48,6 +60,11 @@ export enum BikesBoardingType {
 export enum TimePointType {
   Approximated,
   Exact,
+}
+
+export enum ServiceDayType {
+  ServiceInactiveForTheDay = 0,
+  ServiceActiveForTheDay = 1,
 }
 
 export enum ServiceExceptionType {
