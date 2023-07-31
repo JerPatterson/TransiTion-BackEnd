@@ -151,7 +151,7 @@ export class TripService {
 
   async updateTrip(tripDtos: TripDto[]) {
     const trip = Trip.create(tripDtos as Trip[]);
-    return Trip.insert(trip);
+    return Trip.save(trip);
   }
 
   private async getRouteTripsFromServiceIds(

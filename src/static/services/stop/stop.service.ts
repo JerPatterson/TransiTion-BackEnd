@@ -101,7 +101,7 @@ export class StopService {
         'stops.level_id AS level_id',
         'stops.platform_code AS platform_code',
         'stops.stop_shelter AS stop_shelter',
-        'stops.stop_display AS stop_display',
+        'stops.route_ids AS route_ids',
       ])
       .distinct(true)
       .execute();
@@ -141,7 +141,7 @@ export class StopService {
         'stops.level_id AS level_id',
         'stops.platform_code AS platform_code',
         'stops.stop_shelter AS stop_shelter',
-        'stops.stop_display AS stop_display',
+        'stops.route_ids AS route_ids',
       ])
       .execute();
   }
