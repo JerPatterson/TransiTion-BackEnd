@@ -18,6 +18,7 @@ export class StopService {
         stop_lon: true,
         wheelchair_boarding: true,
         stop_shelter: true,
+        route_ids: true,
       },
       order: { stop_name: 'ASC' },
     });
@@ -148,6 +149,6 @@ export class StopService {
 
   async updateStop(stopDtos: StopDto[]) {
     const stop = Stop.create(stopDtos as Stop[]);
-    return Stop.insert(stop);
+    return Stop.save(stop);
   }
 }

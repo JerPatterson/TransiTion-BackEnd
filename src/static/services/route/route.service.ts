@@ -16,6 +16,7 @@ export class RouteService {
         route_color: true,
         route_text_color: true,
         night_only: true,
+        stop_ids: true,
       },
       order: {
         route_sort_order: 'ASC',
