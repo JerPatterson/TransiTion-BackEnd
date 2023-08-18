@@ -166,9 +166,9 @@ export class NextBusManager extends FeedManager {
   private async getVehicleTripData(): Promise<void> {
     const stlUrl = // TODO
       'https://retro.umoiq.com/service/publicXMLFeed?command=predictionsForMultiStops&a=stl&stops=12E|CP47012&stops=12O|CP45054&stops=144E|CP46238&stops=144O|CP40144' +
-      '&stops=151N|CP40151&stops=151S|CP41546&stops=16E|CP46685&stops=16O|CP48016&stops=17N|CP47017&stops=17S|CP41068&stops=20E|CP46383&stops=20O|CP47020&stops=222E|C' +
+      '&stops=151N|CP40151&stops=151S|CP41551&stops=16E|CP46685&stops=16O|CP48016&stops=17N|CP47017&stops=17S|CP41068&stops=20E|CP46383&stops=20O|CP47020&stops=222E|C' +
       'P47222&stops=222O|CP45067&stops=22E|CP47022&stops=22O|CP42379&stops=24E|CP43428&stops=24O|CP47024&stops=252E|CP46654&stops=252O|CP41272&stops=26E|CP41196&stops' +
-      '=26O|CP48026&stops=27N|CP47027&stops=27S|CP46022&stops=2E|CP48002&stops=2O|CP40002&stops=313N|CP40151&stops=313S|CP46646&stops=31N|CP46654&stops=31S|CP46541&st' +
+      '=26O|CP48026&stops=27N|CP47027&stops=27S|CP46022&stops=2E|CP48002&stops=2O|CP40002&stops=313N|CP40802&stops=313S|CP46646&stops=31N|CP46654&stops=31S|CP46541&st' +
       'ops=33N|CP47033&stops=33S|CP48033&stops=360N|CP48360&stops=36E|CP46563&stops=36O|CP48036&stops=37N|CP47037&stops=37S|CP46421&stops=39N|CP44139&stops=39S|CP4106' +
       '8&stops=40E|CP45001&stops=40O|CP48040&stops=41N|CP47041&stops=41S|CP43181&stops=42E|CP44042&stops=42O|CP41272&stops=43N|CP47043&stops=43S|CP41009&stops=45N|CP4' +
       '8045&stops=45S|CP41068&stops=46N|CP48046&stops=46S|CP43086&stops=48E|CP47048&stops=48O|CP46712&stops=50E|CP44050&stops=50O|CP46634&stops=52E|CP46654&stops=52O|' +
